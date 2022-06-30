@@ -1,0 +1,1 @@
+# YoumaconSecurityOps.Core.Shared
