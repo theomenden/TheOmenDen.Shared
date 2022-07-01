@@ -43,19 +43,5 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"theomenden_TheOmenDen.Shared" /o:"theomenden" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-            build:
-              runs-on: ubuntu-latest
-
-              steps:
-              - uses: actions/checkout@v3
-              - name: Setup .NET
-                uses: actions/setup-dotnet@v2.1.0
-                with:
-                  dotnet-version: 6.0.x
-              - name: Restore dependencies
-                run: dotnet restore
-              - name: Build
-                run: dotnet build --configuration Release --no-restore
-              - name: Test
-                run: dotnet test --no-build --verbosity normal
+                dotnet build 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
