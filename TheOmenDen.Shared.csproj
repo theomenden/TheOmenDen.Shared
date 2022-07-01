@@ -10,7 +10,7 @@
 	<PropertyGroup>
 		<Date>$([System.DateTime]::Now.ToString("yyy.M.d.HHmm"))</Date>
 		<AssemblyFileVersionAttribute>[assembly:System.Reflection.AssemblyFileVersion("$(Date)")]</AssemblyFileVersionAttribute>
-		<ApplicationIcon>wwwroot\ysecShield.ico</ApplicationIcon>
+		<ApplicationIcon>600.ico</ApplicationIcon>
 	</PropertyGroup>
 	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">
 		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)" Overwrite="true">
@@ -19,16 +19,25 @@
 	<PropertyGroup>
 		<Date>$([System.DateTime]::Now.ToString("yyy.M.d.HHmm"))</Date>
 		<AssemblyFileVersionAttribute>[assembly:System.Reflection.AssemblyFileVersion("$(Date)")]</AssemblyFileVersionAttribute>
-		<ApplicationIcon>Assets\ysecShield.ico</ApplicationIcon>
+		<ApplicationIcon>Assets\600.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Description>A collection of core classes for the operation of the YSec Environment</Description>
-		<PackageIcon>favicon-128.png</PackageIcon>
+		<PackageIcon>omen-den-wave.png</PackageIcon>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Company>$(Authors)</Company>
+		<Copyright>2022</Copyright>
+		<PackageProjectUrl>https://github.com/theomenden/TheOmenDen.Shared</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/theomenden/TheOmenDen.Shared</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">
 		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)" Overwrite="true">
 		</WriteLinesToFile>
 	</Target>
+	<ItemGroup>
+	  <Content Include="600.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
@@ -74,11 +83,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Assets\favicon-128.png">
-	    <Pack>True</Pack>
+    <None Update="Assets\omen-den-wave.png">
+      <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="Assets\ysecShield.ico">
+    <None Update="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
