@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Extensions;
+﻿namespace TheOmenDen.Shared.Extensions;
 
 public static class IsBetweenExtensions
 {

@@ -1,5 +1,10 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Responses;
+﻿using TheOmenDen.Shared.Enumerations;
 
+namespace TheOmenDen.Shared.Responses;
+
+/// <summary>
+/// Definitions for various cross-app operations
+/// </summary>
 public class OperationOutcome
 {
     public OperationOutcome()

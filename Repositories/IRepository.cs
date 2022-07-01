@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Repositories;
+﻿namespace TheOmenDen.Shared.Repositories;
 
 /// <summary>
 /// <para>The base repository methods.</para>

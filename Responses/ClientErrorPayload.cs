@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Responses;
+﻿namespace TheOmenDen.Shared.Responses;
 
 /// <summary>
 /// A simplified response that is returned to the client

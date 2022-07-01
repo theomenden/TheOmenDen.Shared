@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using TheOmenDen.Shared.Enumerations;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace YoumaconSecurityOps.Core.Shared.Extensions;
+namespace TheOmenDen.Shared.Extensions;
 
 /// <summary>
 /// Extensions on <c>Microsoft.Extensions.Logging.</c><see cref="ILogger"/>

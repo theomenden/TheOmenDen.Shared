@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Responses;
+﻿namespace TheOmenDen.Shared.Responses;
 
 /// <summary>
 /// A holder that reflects the failure to process a model (command, query, etc) that cannot pass internal validation.

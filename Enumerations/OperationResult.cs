@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Enumerations;
+﻿namespace TheOmenDen.Shared.Enumerations;
 
 /// <summary>
 /// Indicates the outcome of a particular operation

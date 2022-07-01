@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoumaconSecurityOps.Core.Shared", "YoumaconSecurityOps.Core.Shared.csproj", "{B8E59E04-8B22-4CC2-BDBD-77A433FC3015}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheOmenDen.Shared", "TheOmenDen.Shared.csproj", "{B8E59E04-8B22-4CC2-BDBD-77A433FC3015}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

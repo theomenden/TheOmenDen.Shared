@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Enumerations;
+﻿namespace TheOmenDen.Shared.Enumerations;
 
 /// <summary>
 /// <para>A replacement implementation for the standard Enumeration</para>

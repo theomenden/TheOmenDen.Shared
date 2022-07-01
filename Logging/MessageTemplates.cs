@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Logging;
+﻿namespace TheOmenDen.Shared.Logging;
 
 /// <summary>
 /// Templates for logging statements throughout the application

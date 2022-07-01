@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Enumerations;
+﻿namespace TheOmenDen.Shared.Enumerations;
 
 /// <summary>
 /// Contains logging event identifiers for tracing application flow

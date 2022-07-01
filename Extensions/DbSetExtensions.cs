@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
 
-namespace YoumaconSecurityOps.Core.Shared.Extensions;
+namespace TheOmenDen.Shared.Extensions;
 
 public static class DbSetExtensions
 {

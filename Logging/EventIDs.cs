@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using TheOmenDen.Shared.Enumerations;
 
-namespace YoumaconSecurityOps.Core.Shared.Logging;
+namespace TheOmenDen.Shared.Logging;
 
 public static class EventIDs
 {

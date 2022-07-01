@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Enumerations;
+﻿namespace TheOmenDen.Shared.Enumerations;
 
 /// <summary>
 /// A list of codes that are used to help us determine how our Client to API Pipeline is behaving

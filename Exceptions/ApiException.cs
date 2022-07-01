@@ -1,4 +1,6 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Exceptions;
+﻿using TheOmenDen.Shared.Enumerations;
+
+namespace TheOmenDen.Shared.Exceptions;
 
 public class ApiException : Exception
 {

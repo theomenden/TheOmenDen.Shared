@@ -1,9 +1,7 @@
-﻿using System.Text;
-using Murmur;
+﻿using Murmur;
 using Serilog.Core;
-using Serilog.Events;
 
-namespace YoumaconSecurityOps.Core.Shared.Logging;
+namespace TheOmenDen.Shared.Logging;
 
 public class EventTypeEnricher: ILogEventEnricher
 {

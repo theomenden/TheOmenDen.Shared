@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Enumerations;
+﻿namespace TheOmenDen.Shared.Enumerations;
 
 /// <summary>
 /// Contains the various types of logging events for errors.

@@ -1,4 +1,4 @@
-﻿namespace YoumaconSecurityOps.Core.Shared.Configuration;
+﻿namespace TheOmenDen.Shared.Configuration;
 
 /// <summary>
 /// Container for Settings stored in appsettings.json to be deserialized into
