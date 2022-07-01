@@ -1,15 +1,21 @@
 ﻿using TheOmenDen.Shared.Responses;
 
 namespace TheOmenDen.Shared.Services;
+
+public interface IApiService
+{
+
+}
+
 /// <summary>
 /// 
 /// </summary>
-public interface IApiService
+public interface IApiService<T>: IApiService
 {
-    Task<ApiResponse<T>> GetContentAsync<T>(String uri, CancellationToken cancellationToken = new());
+    Task<ApiResponse<T>> GetContentAsync(String uri, CancellationToken cancellationToken = new());
 
-    Task<ApiResponse<IEnumerable<T>>> GetContentStreamAsync<T>(String uri, CancellationToken cancellationToken = new CancellationToken());
+    Task<ApiResponse<IEnumerable<T>>> GetContentStreamAsync(String uri, CancellationToken cancellationToken = new CancellationToken());
 
-    Task<HttpResponseMessage> PostContentAsync<T>(String uri, T body,
+    Task<HttpResponseMessage> PostContentAsync(String uri, T body,
         CancellationToken cancellationToken = new CancellationToken());
 }

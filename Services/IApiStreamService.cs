@@ -4,8 +4,13 @@ namespace TheOmenDen.Shared.Services;
 
 public interface IApiStreamService
 {
-    IAsyncEnumerable<ApiResponse<T>> StreamApiResultsAsync<T>(String uri, CancellationToken cancellationToken = new());
+
+}
+
+public interface IApiStreamService<T>: IApiStreamService
+{
+    IAsyncEnumerable<ApiResponse<T>> StreamApiResultsAsync(String uri, CancellationToken cancellationToken = new());
     
-    Task<ApiResponse<IEnumerable<T>>> EnumerateApiResultsAsync<T>(String uri, CancellationToken cancellationToken = new());
+    Task<ApiResponse<IEnumerable<T>>> EnumerateApiResultsAsync(String uri, CancellationToken cancellationToken = new());
 }
 

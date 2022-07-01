@@ -1,22 +1,25 @@
-﻿using TheOmenDen.Shared.Responses;
+﻿using Microsoft.Extensions.Options;
+using TheOmenDen.Shared.Configuration;
+using TheOmenDen.Shared.Responses;
 using TheOmenDen.Shared.Services;
 
 namespace TheOmenDen.Shared.Infrastructure;
 
-internal sealed class ApiStreamService: IApiStreamService
+internal sealed class ApiStreamService<T>: IApiStreamService<T>
 {
     private readonly IHttpClientFactory _httpClientFactory;
-
-    public ApiStreamService(IHttpClientFactory clientFactory)
+    private readonly HttpClientConfiguration _httpClientConfiguration;
+    public ApiStreamService(IHttpClientFactory clientFactory, IOptions<HttpClientConfiguration> httpClientConfiguration)
     {
         _httpClientFactory = clientFactory;
+        _httpClientConfiguration = httpClientConfiguration.Value;
     }
 
-    public async IAsyncEnumerable<ApiResponse<T>> StreamApiResultsAsync<T>(string uri, [EnumeratorCancellation] CancellationToken cancellationToken = new CancellationToken())
+    public async IAsyncEnumerable<ApiResponse<T>> StreamApiResultsAsync(string uri, [EnumeratorCancellation] CancellationToken cancellationToken = new CancellationToken())
     {
         var apiResponse = new ApiResponse<IAsyncEnumerable<T>>();
 
-        using var client = _httpClientFactory.CreateClient();
+        using var client = _httpClientFactory.CreateClient(_httpClientConfiguration.Name);
 
         using var request = new HttpRequestMessage(HttpMethod.Get, $"{client.BaseAddress}{uri}");
 
@@ -40,9 +43,9 @@ internal sealed class ApiStreamService: IApiStreamService
         }
     }
 
-    public async Task<ApiResponse<IEnumerable<T>>> EnumerateApiResultsAsync<T>(string uri, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<ApiResponse<IEnumerable<T>>> EnumerateApiResultsAsync(string uri, CancellationToken cancellationToken = new CancellationToken())
     {
-        using var client = _httpClientFactory.CreateClient();
+        using var client = _httpClientFactory.CreateClient(_httpClientConfiguration.Name);
 
         using var request = new HttpRequestMessage(HttpMethod.Get, $"{client.BaseAddress}{uri}");
 
@@ -71,14 +74,14 @@ internal sealed class ApiStreamService: IApiStreamService
         };
     }
 
-    private static IAsyncEnumerable<T> DeserializeAsAsyncStream<T>(Stream stream, CancellationToken cancellationToken)
+    private static IAsyncEnumerable<TDeserialize> DeserializeAsAsyncStream<TDeserialize>(Stream stream, CancellationToken cancellationToken)
     {
         if (stream is null || stream.CanRead is false)
         {
-            return AsyncEnumerable.Empty<T>();
+            return AsyncEnumerable.Empty<TDeserialize>();
         }
 
-        return JsonSerializer.DeserializeAsyncEnumerable<T>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }, cancellationToken);
+        return JsonSerializer.DeserializeAsyncEnumerable<TDeserialize>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }, cancellationToken);
     }
 }
 

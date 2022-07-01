@@ -1,30 +1,35 @@
-﻿using TheOmenDen.Shared.Responses;
+﻿using Microsoft.Extensions.Options;
+using TheOmenDen.Shared.Configuration;
+using TheOmenDen.Shared.Responses;
 using TheOmenDen.Shared.Services;
 
 namespace TheOmenDen.Shared.Infrastructure;
 
-internal sealed class ApiService : IApiService
+internal sealed class ApiService<T> : IApiService<T>
 {
-    private readonly HttpClient _client;
+    private readonly IHttpClientFactory _clientFactory;
+    private readonly HttpClientConfiguration _httpClientConfiguration;
 
-    public ApiService(HttpClient client)
+    public ApiService(IHttpClientFactory clientFactory, IOptions<HttpClientConfiguration> options)
     {
-        _client = client ?? throw new ArgumentException(nameof(client));
+        _clientFactory = clientFactory;
+
+        _httpClientConfiguration = options.Value;
     }
 
-    public async Task<ApiResponse<T>> GetContentAsync<T>(String uri, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<T>> GetContentAsync(String uri, CancellationToken cancellationToken = default)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, $"{_client.BaseAddress}{uri}");
+        using var client = _clientFactory.CreateClient(_httpClientConfiguration.Name);
 
-        using var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        using var request = new HttpRequestMessage(HttpMethod.Get, $"{client.BaseAddress}{uri}");
+
+        using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
         await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
         var statusCode = (int)response.StatusCode;
         
         if (response.IsSuccessStatusCode)
         {
-            var responseContent = await DeserializeFromStreamAsync<T>(stream, cancellationToken);
-
             return new ()
             {
                 Data = await DeserializeFromStreamAsync<T>(stream, cancellationToken),
@@ -41,11 +46,13 @@ internal sealed class ApiService : IApiService
         };
     }
 
-    public async Task<ApiResponse<IEnumerable<T>>> GetContentStreamAsync<T>(String uri, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<ApiResponse<IEnumerable<T>>> GetContentStreamAsync(String uri, CancellationToken cancellationToken = new CancellationToken())
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, $"{_client.BaseAddress}{uri}");
+        using var client = _clientFactory.CreateClient(_httpClientConfiguration.Name);
+
+        using var request = new HttpRequestMessage(HttpMethod.Get, $"{client.BaseAddress}{uri}");
         
-        using var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
         await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
 
@@ -53,8 +60,6 @@ internal sealed class ApiService : IApiService
 
         if (response.IsSuccessStatusCode)
         {
-            var responseContent = await DeserializeFromStreamAsync<T>(stream, cancellationToken);
-
             return new()
             {
                 Data = await DeserializeFromStreamAsync<IEnumerable<T>>(stream, cancellationToken),
@@ -71,27 +76,29 @@ internal sealed class ApiService : IApiService
         };
     }
 
-    public async Task<HttpResponseMessage> PostContentAsync<T>(String uri, T body, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<HttpResponseMessage> PostContentAsync(String uri, T body, CancellationToken cancellationToken = new CancellationToken())
     {
+        using var client = _clientFactory.CreateClient(_httpClientConfiguration.Name);
+
         var payload = JsonSerializer.Serialize(body);
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"{_client.BaseAddress}{uri}");
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"{client.BaseAddress}{uri}");
 
         request.Content = new StringContent(payload, Encoding.UTF8, MediaTypeNames.Application.Json);
 
-        using var httpResponse = await _client.SendAsync(request, cancellationToken);
+        using var httpResponse = await client.SendAsync(request, cancellationToken);
 
         return httpResponse;
     }
 
-    private static async Task<T> DeserializeFromStreamAsync<T>(Stream stream, CancellationToken cancellationToken)
+    private static async Task<TDeserialize> DeserializeFromStreamAsync<TDeserialize>(Stream stream, CancellationToken cancellationToken)
     {
         if (stream is null || stream.CanRead is false)
         {
             return default;
         }
 
-        var searchResult = await JsonSerializer.DeserializeAsync<T>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }, cancellationToken);
+        var searchResult = await JsonSerializer.DeserializeAsync<TDeserialize>(stream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }, cancellationToken);
 
         return searchResult;
     }

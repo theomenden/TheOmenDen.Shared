@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
+using TheOmenDen.Shared.Configuration;
 using TheOmenDen.Shared.Infrastructure;
 using TheOmenDen.Shared.Services;
 
@@ -8,71 +9,63 @@ namespace TheOmenDen.Shared.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddTheOmenDenHttpServices(this IServiceCollection services, String clientName,
-        String baseUri)
+    public static IServiceCollection AddTheOmenDenHttpServices(this IServiceCollection services, HttpClientConfiguration httpClientConfiguration)
     {
-        services.AddHttpClient<IApiService>(clientName, options => { options.BaseAddress = new(baseUri); })
+        services.AddHttpClient<IApiService>(httpClientConfiguration.Name, options => options.BaseAddress = new Uri(httpClientConfiguration.BaseAddress))
             .AddPolicyHandler(GetRetryPolicy())
-            .AddPolicyHandler(GetCircuitBreakerPolicy()); ;
+            .AddPolicyHandler(GetCircuitBreakerPolicy());
 
-
-        services.AddScoped<IApiService, ApiService>();
+        services.AddScoped(typeof(IApiService<>), typeof(ApiService<>));
         
         return services;
     }
 
 
-    public static IServiceCollection AddTheOmenDenHttpServices<T>(this IServiceCollection services, String clientName,
-        String baseUri)
+    public static IServiceCollection AddTheOmenDenHttpServices<T>(this IServiceCollection services, HttpClientConfiguration httpClientConfiguration)
     {
         var containerType = typeof(T);
 
-        services.AddHttpClient<IApiService>(clientName, options => { options.BaseAddress = new(baseUri); })
+        services.AddHttpClient<IApiService>(httpClientConfiguration.Name, options => options.BaseAddress = new Uri(httpClientConfiguration.BaseAddress))
             .AddPolicyHandler(GetRetryPolicy())
             .AddPolicyHandler(GetCircuitBreakerPolicy()); ;
 
 
-        services.AddScoped<IApiService, ApiService>();
+        services.AddScoped(typeof(IApiService<>), typeof(ApiService<>));
 
         services.Scan(scan => scan
             .FromAssembliesOf(typeof(IApiService), containerType)
-            .AddClasses()
+            .AddClasses(c => c.AssignableTo(typeof(IApiService<>)))
             .AsImplementedInterfaces());
 
         return services;
     }
 
-    public static IServiceCollection AddTheOmenDenHttpStreamingServices(this IServiceCollection services,
-        String clientName,
-        String baseUri)
+    public static IServiceCollection AddTheOmenDenHttpStreamingServices(this IServiceCollection services, HttpClientConfiguration httpClientConfiguration)
     {
-        services.AddHttpClient<IApiStreamService>(clientName, options => { options.BaseAddress = new(baseUri); })
+        services.AddHttpClient<IApiStreamService>(httpClientConfiguration.Name, options => options.BaseAddress = new Uri(httpClientConfiguration.BaseAddress))
             .AddPolicyHandler(GetRetryPolicy())
             .AddPolicyHandler(GetCircuitBreakerPolicy()); ;
 
 
-        services.AddScoped<IApiStreamService, ApiStreamService>();
-
+        services.AddScoped(typeof(IApiStreamService<>), typeof(ApiStreamService<>));
 
         return services;
     }
 
-    public static IServiceCollection AddTheOmenDenHttpStreamingServices<T>(this IServiceCollection services,
-        String clientName,
-        String baseUri)
+    public static IServiceCollection AddTheOmenDenHttpStreamingServices<T>(this IServiceCollection services, HttpClientConfiguration httpClientConfiguration)
     {
         var containerType = typeof(T);
 
-        services.AddHttpClient<IApiStreamService>(clientName, options => { options.BaseAddress = new(baseUri); })
+        services.AddHttpClient<IApiStreamService>(httpClientConfiguration.Name, options => options.BaseAddress = new Uri(httpClientConfiguration.BaseAddress))
             .AddPolicyHandler(GetRetryPolicy())
             .AddPolicyHandler(GetCircuitBreakerPolicy()); ;
 
 
-        services.AddScoped<IApiStreamService, ApiStreamService>();
+        services.AddScoped(typeof(IApiStreamService<>), typeof(ApiStreamService<>));
 
         services.Scan(scan => scan
             .FromAssembliesOf(typeof(IApiStreamService), containerType)
-            .AddClasses()
+            .AddClasses(c => c.AssignableTo(typeof(IApiStreamService<>)))
             .AsImplementedInterfaces());
 
         return services;
