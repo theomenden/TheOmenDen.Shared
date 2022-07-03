@@ -25,6 +25,7 @@ public static class DbSetExtensions
     /// <param name="source"></param>
     /// <param name="predicate"></param>
     /// <returns><see cref="IEnumerable{T}"/>: <typeparam name="T"></typeparam></returns>
+    /// <remarks>Forces Client-Side Evaluation</remarks>
     public static IEnumerable<T> FindAll<T>(this DbSet<T> source, Expression<Func<T, bool>> predicate) where T : class
     {
         foreach (var item in source.Where(predicate))
@@ -40,6 +41,7 @@ public static class DbSetExtensions
     /// <param name="source">The provided <see cref="DbSet{TEntity}"/></param>
     /// <param name="predicate">A list of conditions to search under</param>
     /// <returns>An <see cref="IAsyncEnumerable{T}"/> : <typeparam name="T"></typeparam></returns>
+    /// /// <remarks>Forces Client-Side Evaluation</remarks>
     public static IAsyncEnumerable<T> FindAllAsync<T>(this DbSet<T> source,
         Expression<Func<T, bool>> predicate)
         where T : class

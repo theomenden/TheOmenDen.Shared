@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheOmenDen.Shared", "TheOmenDen.Shared.csproj", "{B8E59E04-8B22-4CC2-BDBD-77A433FC3015}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheOmenDen.Shared.Tests", "..\TheOmenDen.Shared.Tests\TheOmenDen.Shared.Tests.csproj", "{49355124-FB0E-4D52-A9C1-36DA076F3F05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B8E59E04-8B22-4CC2-BDBD-77A433FC3015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8E59E04-8B22-4CC2-BDBD-77A433FC3015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8E59E04-8B22-4CC2-BDBD-77A433FC3015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49355124-FB0E-4D52-A9C1-36DA076F3F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49355124-FB0E-4D52-A9C1-36DA076F3F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49355124-FB0E-4D52-A9C1-36DA076F3F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49355124-FB0E-4D52-A9C1-36DA076F3F05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

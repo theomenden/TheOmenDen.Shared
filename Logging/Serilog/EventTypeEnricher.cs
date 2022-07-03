@@ -1,9 +1,9 @@
 ﻿using Murmur;
 using Serilog.Core;
 
-namespace TheOmenDen.Shared.Logging;
+namespace TheOmenDen.Shared.Logging.Serilog;
 
-public class EventTypeEnricher: ILogEventEnricher
+public class EventTypeEnricher : ILogEventEnricher
 {
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
     {

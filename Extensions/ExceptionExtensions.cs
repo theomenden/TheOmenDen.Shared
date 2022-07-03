@@ -10,14 +10,9 @@ public static class ExceptionExtensions
     public static Exception GetInnermostException(this Exception exception)
     {
         var exceptionToCheck = exception;
-
-        while (exceptionToCheck.InnerException is not null)
+        
+        while (exceptionToCheck.InnerException != null)
         {
-            if (exception.InnerException is null)
-            {
-                break;
-            }
-
             exceptionToCheck = exceptionToCheck.InnerException;
         }
 

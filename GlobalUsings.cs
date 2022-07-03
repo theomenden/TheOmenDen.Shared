@@ -2,6 +2,7 @@
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Infrastructure;
 global using Microsoft.EntityFrameworkCore.Storage;
+global using Microsoft.Extensions.Options;
 #endregion
 #region Serilog Usings
 global using Serilog;
@@ -25,3 +26,10 @@ global using System.Threading;
 global using System.Threading.Tasks;
 
 #endregion;
+#region The Omen Den Usings
+global using TheOmenDen.Shared.Configuration;
+global using TheOmenDen.Shared.Enumerations;
+global using TheOmenDen.Shared.Infrastructure;
+global using TheOmenDen.Shared.Responses;
+global using TheOmenDen.Shared.Services;
+#endregion

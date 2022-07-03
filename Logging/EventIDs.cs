@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using TheOmenDen.Shared.Enumerations;
 
 namespace TheOmenDen.Shared.Logging;
 
@@ -15,4 +14,3 @@ public static class EventIDs
 
     public static readonly EventId EventIdUncaughtGlobal = new((int)EventIdIdentifier.UncaughtGlobal, EventIdIdentifier.UncaughtGlobal.ToString());
 }
-

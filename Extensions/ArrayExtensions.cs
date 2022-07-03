@@ -51,7 +51,7 @@ public static class ArrayExtensions
     /// <param name="source">The source array</param>
     /// <param name="appendArray">The array with values to append to the source array</param>
     /// <param name="index">starting index of the <paramref name="appendArray"/></param>
-    /// <param name="length">The amount of entites from the provided index that we want to copy over, and expand our arrays by</param>
+    /// <param name="length">The amount of entities from the provided index that we want to copy over, and expand our arrays by</param>
     /// <returns>The combination of the arrays</returns>
     public static T[] Append<T>(this T[] source, T[] appendArray, Int32 index, Int32 length)
     {
