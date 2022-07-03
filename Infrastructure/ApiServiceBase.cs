@@ -25,6 +25,7 @@ public abstract class ApiServiceBase<TResponse> : IApiService<TResponse>
         using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
         await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        
         var statusCode = (int)response.StatusCode;
 
         return new()
