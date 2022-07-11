@@ -34,7 +34,21 @@ public interface IApiService<T>: IApiService
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ApiResponse{T}"/> indicating success or failure</returns>
     Task<ApiResponse<IEnumerable<T>>> GetContentStreamAsync(String uri, CancellationToken cancellationToken = new ());
 
+    /// <summary>
+    /// Initiates a <see cref="HttpMethod.Post"/> request to a particular endpoint provided by <paramref name="uri"/>, with the 
+    /// </summary>
+    /// <param name="uri">The endpoint we're aiming to hit</param>
+    /// <param name="body">The content we want to post</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns><see cref="ApiResponse{T}"/> for processing further</returns>
     Task<ApiResponse<String>> PostContentAsync(String uri, T body, CancellationToken cancellationToken = new ());
 
+    /// <summary>
+    /// Initiates a <see cref="HttpMethod.Delete"/> to a particular endpoint provided by <paramref name="uri"/>, with the 
+    /// </summary>
+    /// <param name="uri">The endpoint we're aiming to hit</param>
+    /// <param name="body">The content we want to post</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns><see cref="ApiResponse{T}"/> for processing further</returns>
     Task<ApiResponse<String>> DeleteContentAsync(String uri, CancellationToken cancellationToken = new());
 }

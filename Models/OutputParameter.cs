@@ -20,6 +20,6 @@ public class OutputParameter<TValue>
     {
         _valueSet = true;
 
-        _value = value is null || Convert.IsDBNull(value) ? default(TValue) : (TValue)value;
+        _value = value is null || Convert.IsDBNull(value) ? default : (TValue)value;
     }
 }

@@ -3,6 +3,11 @@
 namespace TheOmenDen.Shared.Logging;
 public static class RequestLoggingConfigurer
 {
+    /// <summary>
+    /// Tells the provided <see cref="IDiagnosticContext"/> to log properties from the provided <seealso cref="HttpContext" />
+    /// </summary>
+    /// <param name="diagnosticContext"><inheritdoc cref="IDiagnosticContext"/></param>
+    /// <param name="context"><inheritdoc cref="HttpContext"/></param>
     public static void EnrichFromRequest(IDiagnosticContext diagnosticContext, HttpContext context)
     {
         var request = context.Request;

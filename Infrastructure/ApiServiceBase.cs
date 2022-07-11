@@ -16,6 +16,12 @@ public abstract class ApiServiceBase<TResponse> : IApiService<TResponse>
         HttpClientConfiguration = options.Value;
     }
 
+    /// <summary>
+    /// Initiates a <see cref="HttpMethod.Get"/> request to retrieves content from a particular API endpoint given by the provided <paramref name="uri"/>
+    /// </summary>
+    /// <param name="uri">The endpoint we mean to retrieve from</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns><see cref="ApiResponse{T}"/> of type <typeparamref name="TResponse"/></returns>
     public virtual async Task<ApiResponse<TResponse>> GetContentAsync(String uri, CancellationToken cancellationToken = default)
     {
         using var client = ClientFactory.CreateClient(HttpClientConfiguration.Name);
@@ -36,6 +42,12 @@ public abstract class ApiServiceBase<TResponse> : IApiService<TResponse>
         };
     }
 
+    /// <summary>
+    /// Initiates a <see cref="HttpMethod.Get"/> request to retrieve content from a particular API endpoint given by the provided <paramref name="uri"/>
+    /// </summary>
+    /// <param name="uri">The endpoint we mean to retrieve from</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns><see cref="ApiResponse{T}"/> <see cref="IEnumerable{T}"/> type <typeparamref name="TResponse"/></returns>
     public virtual async Task<ApiResponse<IEnumerable<TResponse>>> GetContentStreamAsync(String uri, CancellationToken cancellationToken = default)
     {
         using var client = ClientFactory.CreateClient(HttpClientConfiguration.Name);
@@ -56,6 +68,13 @@ public abstract class ApiServiceBase<TResponse> : IApiService<TResponse>
         };
     }
 
+    /// <summary>
+    /// Initiates a <see cref="HttpMethod.Post"/> request to a particular endpoint provided by <paramref name="uri"/>, with the 
+    /// </summary>
+    /// <param name="uri">The endpoint we're aiming to hit</param>
+    /// <param name="body">The content we want to post</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns><see cref="ApiResponse{T}"/> for processing further</returns>
     public virtual async Task<ApiResponse<String>> PostContentAsync(String uri, TResponse body, CancellationToken cancellationToken = default)
     {
         using var client = ClientFactory.CreateClient(HttpClientConfiguration.Name);
@@ -80,6 +99,13 @@ public abstract class ApiServiceBase<TResponse> : IApiService<TResponse>
         };
     }
 
+    /// <summary>
+    /// Initiates a <see cref="HttpMethod.Delete"/> to a particular endpoint provided by <paramref name="uri"/>, with the 
+    /// </summary>
+    /// <param name="uri">The endpoint we're aiming to hit</param>
+    /// <param name="body">The content we want to post</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns><see cref="ApiResponse{T}"/> for processing further</returns>
     public virtual async Task<ApiResponse<String>> DeleteContentAsync(String uri,
         CancellationToken cancellationToken = default)
     {
@@ -101,6 +127,13 @@ public abstract class ApiServiceBase<TResponse> : IApiService<TResponse>
         };
     }
 
+    /// <summary>
+    /// Deserializes the provided <paramref name="stream"/> into <typeparamref name="TDeserialize"/>
+    /// </summary>
+    /// <typeparam name="TDeserialize">The entity we want to deserialize into</typeparam>
+    /// <param name="stream">The given stream to deserialize using <see cref="JsonSerializer"/></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     protected virtual async Task<TDeserialize> DeserializeFromStreamAsync<TDeserialize>(Stream stream, CancellationToken cancellationToken)
     {
         if (stream is null || stream.CanRead is false)
@@ -113,6 +146,11 @@ public abstract class ApiServiceBase<TResponse> : IApiService<TResponse>
         return searchResult;
     }
 
+    /// <summary>
+    /// Deserializes the provided <paramref name="stream"/> into a <see cref="String"/>
+    /// </summary>
+    /// <param name="stream">The provided stream we aim to deserialize using <see cref="JsonSer"/></param>
+    /// <returns><see cref="String"/> for further processing</returns>
     protected virtual async Task<String> DeserializeStreamToStringAsync(Stream stream)
     {
         var content = String.Empty;

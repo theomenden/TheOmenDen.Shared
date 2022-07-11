@@ -3,30 +3,35 @@
 /// <summary>
 /// A list of codes that are used to help us determine how our Client to API Pipeline is behaving
 /// </summary>
-public enum ResponseCodes
+public class ResponseCodes: EnumerationBase
 {
+    private ResponseCodes(String name, Int32 id)
+        :base(name, id)
+    {
+    }
+
     /// <summary>
     /// HttpError : An Error that occurs during the transmission of the request
     /// </summary>
-    HttpError,
+    public static readonly ResponseCodes HttpError = new(nameof(HttpError), 1);
 
     /// <summary>
     /// ApiError : An Error that occurred from within processing the request in the api
     /// </summary>
-    ApiError,
+    public static readonly ResponseCodes ApiError = new(nameof(ApiError), 2);
 
     /// <summary>
     /// UnrecognizedError : The api returned a error that we didn't recognize and were unable to process
     /// </summary>
-    UnrecognizedError,
+    public static readonly ResponseCodes UnrecognizedError = new(nameof(UnrecognizedError), 3);
 
     /// <summary>
     /// UnintelligibleResponse: A non-error response from the api that we didn't recognize and were unable to process
     /// </summary>
-    UnintelligibleResponse,
+    public static readonly ResponseCodes UnintelligibleResponse = new(nameof(UnintelligibleResponse), 4);
 
     /// <summary>
     /// ApiSuccess : A successful response
     /// </summary>
-    ApiSuccess
+    public static readonly ResponseCodes ApiSuccess = new(nameof(ApiSuccess), 5);
 }

@@ -15,6 +15,12 @@ public abstract class ApiStreamServiceBase<TStreamResponse>: IApiStreamService<T
         HttpClientConfiguration = httpClientConfiguration.Value;
     }
 
+    /// <summary>
+    /// <inheritdoc cref="IApiStreamService{T}.StreamApiResultsAsync(string, CancellationToken)"/>
+    /// </summary>
+    /// <param name="uri">The endpoint we want to hit</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public virtual async IAsyncEnumerable<ApiResponse<TStreamResponse>> StreamApiResultsAsync(string uri, [EnumeratorCancellation] CancellationToken cancellationToken = new CancellationToken())
     {
         using var client = HttpClientFactory.CreateClient(HttpClientConfiguration.Name);
@@ -43,6 +49,12 @@ public abstract class ApiStreamServiceBase<TStreamResponse>: IApiStreamService<T
         }
     }
 
+    /// <summary>
+    /// <inheritdoc cref="IApiStreamService{T}.EnumerateApiResultsAsync(string, CancellationToken)(string, CancellationToken)"/>
+    /// </summary>
+    /// <param name="uri">The endpoint we want to hit</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public virtual async Task<ApiResponse<IEnumerable<TStreamResponse>>> EnumerateApiResultsAsync(string uri, CancellationToken cancellationToken = new CancellationToken())
     {
         using var client = HttpClientFactory.CreateClient(HttpClientConfiguration.Name);
@@ -77,6 +89,13 @@ public abstract class ApiStreamServiceBase<TStreamResponse>: IApiStreamService<T
         }
     }
 
+    /// <summary>
+    /// Deserialize the provided <paramref name="stream"/> into asynchronous stream of <typeparamref name="TDeserialize"/> entities
+    /// </summary>
+    /// <typeparam name="TDeserialize">The type we're expecting to deserialize into</typeparam>
+    /// <param name="stream">The provided stream</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns><see cref="IAsyncEnumerable{T}"/>: <typeparamref name="TDeserialize"/></returns>
     protected virtual IAsyncEnumerable<TDeserialize> DeserializeAsAsyncStream<TDeserialize>(Stream stream, CancellationToken cancellationToken)
     {
         if (stream is null || stream.CanRead is false)

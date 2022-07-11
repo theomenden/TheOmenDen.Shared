@@ -3,14 +3,20 @@
 /// <summary>
 /// Indicates the outcome of a particular operation
 /// </summary>
-public enum OperationResult
+public class OperationResult : EnumerationBase
 {
+    private OperationResult(String name, Int32 id)
+    : base(name, id)
+    {
+    }
+
     /// <value>
     /// The operation succeeded
     /// </value>
-    Success = 0,
+    public static readonly OperationResult Success = new(nameof(Success), 0);
+
     /// <value>
     /// The operation returned a failure status
     /// </value>
-    Failure = 1
+    public static readonly OperationResult Failure = new(nameof(Failure), 1);
 }

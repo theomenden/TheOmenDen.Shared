@@ -1,7 +1,6 @@
 ﻿namespace TheOmenDen.Shared.Extensions;
 public static class ExceptionExtensions
 {
-
     /// <summary>
     /// Retrieves the deepest nested Inner <see cref="Exception"/>
     /// </summary>

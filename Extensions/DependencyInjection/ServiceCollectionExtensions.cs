@@ -116,7 +116,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-
+    
     private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
     {
         return HttpPolicyExtensions

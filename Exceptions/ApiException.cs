@@ -1,7 +1,9 @@
-﻿using TheOmenDen.Shared.Enumerations;
-
-namespace TheOmenDen.Shared.Exceptions;
-
+﻿namespace TheOmenDen.Shared.Exceptions;
+#nullable enable
+/// <summary>
+/// Provides a way to describe issues involving APIs, both external and internal 
+/// <inheritdoc cref="Exception"/>
+/// </summary>
 public class ApiException : Exception
 {
     public ApiException(string message)
@@ -10,24 +12,34 @@ public class ApiException : Exception
     public ApiException(string message, Exception innerException)
         : base(message, innerException) { }
 
-    public ApiException(string message, ExceptionGravity exceptionGravity = ExceptionGravity.Error,
-        int statusCode = 500)
+    public ApiException(string message, ExceptionGravity? exceptionGravity, int statusCode = 500)
         : base(message)
     {
-        ExceptionGravity = exceptionGravity;
+        ExceptionGravity = exceptionGravity ?? ExceptionGravity.Error;
         StatusCode = statusCode;
     }
 
-    public ApiException(string message, Exception innerException,
-        ExceptionGravity exceptionGravity = ExceptionGravity.Error, int statusCode = 500)
+    public ApiException(string message, Exception innerException, ExceptionGravity? exceptionGravity, int statusCode = 500)
         : base(message, innerException)
     {
-        ExceptionGravity = exceptionGravity;
+        ExceptionGravity = exceptionGravity ?? ExceptionGravity.Error;
         StatusCode = statusCode;
     }
 
-    public ExceptionGravity ExceptionGravity { get; set; }
+    /// <summary>
+    /// Represents the general severity of an exception 
+    /// </summary>
+    /// <value>
+    /// <see cref="ExceptionGravity"/>
+    /// </value>
+    public ExceptionGravity ExceptionGravity { get; set; } = ExceptionGravity.Error;
 
+    /// <summary>
+    /// A human readable status code
+    /// </summary>
+    /// <value>
+    /// Integer value, typically set by the <see cref="HttpResponseMessage"/>
+    /// </value>
     public int StatusCode { get; set; }
 }
 

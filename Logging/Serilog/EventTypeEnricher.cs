@@ -3,8 +3,16 @@ using Serilog.Core;
 
 namespace TheOmenDen.Shared.Logging.Serilog;
 
+/// <summary>
+/// Provides a method of enriching a <see cref="Serilog"/> implementation with a provided <see cref="LogEvent"/>
+/// </summary>
 public class EventTypeEnricher : ILogEventEnricher
 {
+    /// <summary>
+    /// <inheritdoc cref="ILogEventEnricher.Enrich(LogEvent, ILogEventPropertyFactory)"/>
+    /// </summary>
+    /// <param name="logEvent"></param>
+    /// <param name="propertyFactory"></param>
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
     {
         var murmur = MurmurHash.Create32();

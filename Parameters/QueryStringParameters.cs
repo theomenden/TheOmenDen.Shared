@@ -13,5 +13,11 @@ public abstract record QueryStringParameters(bool IsHistoricalQuery = false)
         Id = Guid.NewGuid();
     }
 
+    /// <summary>
+    /// Unique Id for logging purposes
+    /// </summary>
+    /// <value>
+    /// A UUID for easier searching when things go wrong
+    /// </value>
     public Guid Id { get; }
 }

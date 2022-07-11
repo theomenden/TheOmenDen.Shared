@@ -50,10 +50,10 @@ public static class LoggerExtensions
     }
 
     /// <summary>
-    /// 
+    /// Logs out a profile from a completed operation using the provided <paramref name="milliseconds"/>
     /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="milliseconds"></param>
+    /// <param name="logger"><inheritdoc cref="Microsoft.Extensions.Logging.ILogger"/></param>
+    /// <param name="milliseconds">The total elapsed milliseconds an operation took</param>
     public static void TraceMessageProfiling(this ILogger logger, long milliseconds)
     {
         ProfileMessageTrace(logger, milliseconds, null);
