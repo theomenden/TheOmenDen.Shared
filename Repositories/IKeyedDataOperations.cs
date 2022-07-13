@@ -15,22 +15,6 @@ public interface IKeyedDataOperations<in TKey, in TValue, TEntity, TResult>: IEn
   where TKey : IEntityKey
 {
     /// <summary>
-    /// An attempt at a relatively stable retrieval operation that respects the provided <paramref name="keys"/> to allow for multiple value comparisons
-    /// </summary>
-    /// <param name="keys">The provided keys that we want to match against</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns><see cref="Tuple{T1, T2}"/>: A coupling of the result of the operation <typeparamref name="TResult"/>, and the completed object,<typeparamref name="TEntity"/></returns>
-    ValueTask<IEnumerable<(TResult, TEntity)>> GetAllByKeysAsync(IEnumerable<TKey> keys, CancellationToken cancellationToken = new());
-
-    /// <summary>
-    /// An attempt at a relatively stable streaming operation that respects the provided <paramref name="keys"/> to allow for multiple value comparisons
-    /// </summary>
-    /// <param name="keys"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns><see cref="IAsyncEnumerable{T}"/>: <see cref="Tuple{T1, T2}"/>: A streaming coupling of the result of the operation <typeparamref name="TResult"/>, and the completed object,<typeparamref name="TEntity"/></returns>
-    IAsyncEnumerable<(TResult, TEntity)> GetAllByKeysAsyncStream(IEnumerable<TKey> keys, CancellationToken cancellationToken = new());
-
-    /// <summary>
     /// An attempt at a relatively stable insertion operation that respects the given <paramref name="key"/>, and allows for underlying <paramref name="manipulativeValues"/> to be distinguished from the originating key.
     /// </summary>
     /// <param name="key">The key object that we are aiming to check against</param>
