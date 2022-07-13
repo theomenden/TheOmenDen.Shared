@@ -6,7 +6,7 @@
 /// </summary>
 /// <typeparam name="T">The underlying type affected</typeparam>
 /// <typeparam name="TResult">The result of the operation</typeparam>
-public interface IDataOperations<T, TResult>: IRepository<T>, IStreamingRepository<T> 
+public interface IDataOperations<T, TResult> : IRepository<T>, IStreamingRepository<T>
     where T : class
 {
     /// <summary>
@@ -17,7 +17,7 @@ public interface IDataOperations<T, TResult>: IRepository<T>, IStreamingReposito
     /// <typeparam name="T">Type of entity to add</typeparam>
     /// <returns><typeparamref name="TResult"/></returns>
     ValueTask<TResult> AddAsync(T entity, CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Adds the specified <paramref name="entities"/> of type <typeparamref name="T"/> to an established store 
     /// </summary>
@@ -58,4 +58,3 @@ public interface IDataOperations<T, TResult>: IRepository<T>, IStreamingReposito
     /// <returns><typeparamref name="TResult"/></returns>
     ValueTask<TResult> DeleteManyAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 }
-

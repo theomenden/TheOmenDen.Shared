@@ -30,6 +30,7 @@ global using System.Threading.Tasks;
 global using TheOmenDen.Shared.Configuration;
 global using TheOmenDen.Shared.Enumerations;
 global using TheOmenDen.Shared.Infrastructure;
+global using TheOmenDen.Shared.Models;
 global using TheOmenDen.Shared.Responses;
 global using TheOmenDen.Shared.Services;
 #endregion

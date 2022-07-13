@@ -6,7 +6,7 @@
 public interface IEntity
 {
     /// <summary>
-    /// A unique ID for each implemented
+    /// Provides a unique identity containing various informatino regarding the underlying entity
     /// </summary>
-    public Guid Id { get; }
+    EntityKey Key { get; }
 }
