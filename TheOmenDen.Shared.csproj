@@ -35,6 +35,7 @@
 		<Authors>Andrew Beers (Alu)</Authors>
 		<Product>The Omen Den Shared</Product>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<Nullable>annotations</Nullable>
 	</PropertyGroup>
 	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">
 		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)" Overwrite="true">

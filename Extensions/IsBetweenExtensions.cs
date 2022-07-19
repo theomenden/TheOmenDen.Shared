@@ -66,6 +66,4 @@ public static class IsBetweenExtensions
     {
         return !IsBetween(value, lowerBound, upperBound);
     }
-
-
 }
