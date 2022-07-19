@@ -36,6 +36,7 @@
 		<Product>The Omen Den Shared</Product>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 		<Nullable>annotations</Nullable>
+		<PackageIcon>Assets\omen-den-wave.png</PackageIcon>
 	</PropertyGroup>
 	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">
 		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)" Overwrite="true">
@@ -89,6 +90,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\omen-den-wave.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Update="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
