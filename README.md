@@ -16,5 +16,11 @@
    - Currently limited to a "lazy" implementation of `IEnumerable<T>.Any<T>()`;
 6. Base Record types for QueryStrings and Events
    - Providing immutability
-7. Open Generic Registrations for IApiService implementations
-8. Automatic Registrations for IApiService and IApiStreamService implementations via [Scrutor](https://github.com/khellang/Scrutor)
+7. ~~Open Generic Registrations for IApiService implementations~~ Moved to TheOmenDen.Shared.Services
+8. ~~Automatic Registrations for IApiService and IApiStreamService implementations via [Scrutor](https://github.com/khellang/Scrutor)~~ Moved to TheOmenDen.Shared.Services
+
+## Moving from V1 -> V2 will incur breaking changes as I have determined that manipulating the shared libary as a massive project is a bit difficult to maintain. From now on, we'll keep the ideas of what each section of the shared project has separated. This is based off of necessity and my personal obession with cleanliness.
+
+### Note: V2 will be identified by
+   - Releases will tagged as V2
+   - Package versions will have the first 3 parts of their versioning as a date after: `2022.7.26`
