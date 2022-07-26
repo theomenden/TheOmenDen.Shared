@@ -3,26 +3,35 @@
 /// <summary>
 /// Contains the various types of logging events for errors.
 /// </summary>
-public enum EventIdIdentifier
+public record EventIdIdentifier: EnumerationBase
 {
+    private EventIdIdentifier(String name, Int32 id)
+        :base(name, id)
+    {
+    }
+
     /// <value>
     /// Thrown by the application
     /// </value>
-    AppThrown = 1,
+    public static readonly EventIdIdentifier AppThrown = new(nameof(AppThrown), 1);
+
     /// <value>
     /// Uncaught during a particular action
     /// </value>
-    UncaughtInAction = 2,
+    public static readonly EventIdIdentifier UncaughtInAction = new(nameof(AppThrown), 2);
+
     /// <value>
     /// Uncaught in the application
     /// </value>
-    UncaughtGlobal = 3,
+    public static readonly EventIdIdentifier UncaughtGlobal = new(nameof(AppThrown), 3);
+
     /// <value>
     /// Thrown from inside a pipeline
     /// </value>
-    PipelineThrown = 4,
+    public static readonly EventIdIdentifier PipelineThrown = new(nameof(AppThrown), 4);
+
     /// <value>
     /// Thrown by an HTTP Client
     /// </value>
-    HttpClient = 5
+    public static readonly EventIdIdentifier HttpClient = new(nameof(AppThrown), 5);
 }

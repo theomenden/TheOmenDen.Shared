@@ -3,7 +3,7 @@
 /// <summary>
 /// A list of codes that are used to help us determine how our Client to API Pipeline is behaving
 /// </summary>
-public class ResponseCodes: EnumerationBase
+public record ResponseCodes: EnumerationBase
 {
     private ResponseCodes(String name, Int32 id)
         :base(name, id)

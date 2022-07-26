@@ -1,4 +1,4 @@
-﻿using TheOmenDen.Shared.Logging;
+﻿using TheOmenDen.Shared.Responses.Templates;
 
 namespace TheOmenDen.Shared.Responses;
 
@@ -17,7 +17,7 @@ public class OperationOutcome
     /// <summary>
     /// <inheritdoc cref="Enumerations.OperationResult"/>
     /// </summary>
-    public OperationResult OperationResult { get; set; }
+    public OperationResult OperationResult { get; set; } = OperationResult.Success; // we love optimism 😅
 
     /// <summary>
     /// The correlation id for us to search for this outcome

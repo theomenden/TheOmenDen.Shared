@@ -3,26 +3,35 @@
 /// <summary>
 /// Contains logging event identifiers for tracing application flow
 /// </summary>
-public enum TraceEventIdentifiers
+public record TraceEventIdentifiers: EnumerationBase
 {
-    /// <value>
+    private TraceEventIdentifiers(String name, Int32 id)
+        : base(name, id)
+    {
+    }
+
+    /// <summary>
     /// Represents a profiling of a particular point of the application
-    /// </value>
-    ProfileMessagingTrace = 50,
-    /// <value>
+    /// </summary>
+    public static readonly TraceEventIdentifiers ProfileMessagingTrace = new(nameof(ProfileMessagingTrace),50);
+    
+    /// <summary>
     /// Occurs before any validation
-    /// </value>
-    BeforeValidatingMessageTrace = 51,
-    /// <value>
+    /// </summary>
+    public static readonly TraceEventIdentifiers BeforeValidatingMessageTrace = new (nameof(BeforeValidatingMessageTrace),51);
+    
+    /// <summary>
     /// Invalid general escape message
-    /// </value>
-    InvalidMessageTrace = 52,
-    /// <value>
+    /// </summary>
+    public static readonly TraceEventIdentifiers InvalidMessageTrace = new (nameof(InvalidMessageTrace),52);
+    
+    /// <summary>
     /// Validation passed
-    /// </value>
-    ValidMessageTrace = 53,
-    /// <value>
+    /// </summary>
+    public static readonly TraceEventIdentifiers ValidMessageTrace = new (nameof(ValidMessageTrace),53);
+    
+    /// <summary>
     /// Indication for a model binder being used
-    /// </value>
-    ModelBinderUsedTrace = 54
+    /// </summary>
+    public static readonly TraceEventIdentifiers ModelBinderUsedTrace = new (nameof(ModelBinderUsedTrace),54);
 }

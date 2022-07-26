@@ -13,7 +13,7 @@ public static class ArrayExtensions
     /// <returns>An sliced array of <typeparamref name="T"/> entities</returns>
     public static T[] SubArray<T>(this T[] source, Int32 index)
     {
-        return SubArray<T>(source, index, source.Length - index);
+        return SubArray(source, index, source.Length - index);
     }
 
     /// <summary>

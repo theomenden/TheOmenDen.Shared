@@ -7,4 +7,4 @@
 /// <param name="Name">The user's name</param>
 /// <param name="IsAuthenticated">Checking if the user is authenticated where relevant</param>
 /// <param name="Key">A unique integer key for the user's provided information</param>
-public record struct User(Guid Id, String Email, String Name, Boolean IsAuthenticated, Int32 Key);
+public sealed record User(Guid Id, String Email, String Name, Boolean IsAuthenticated, Int32 Key);

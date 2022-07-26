@@ -2,16 +2,20 @@
 /// <summary>
 /// Information relevant to our processing of Apis throughout the app
 /// </summary>
+/// <remarks>See the <see cref="ApiResponseContext"/> for serialization information</remarks>
 public class ApiResponse
 {
-    /// <value>
+    /// <summary>
     /// Indicates if the resulting operation was an Error, or a success
+    /// </summary>
+    /// <value>
+    /// <see cref="OperationOutcome"/>
     /// </value>
     public OperationOutcome Outcome { get; set; }
 
-    /// <value>
+    /// <summary>
     /// Status code belonging to a particular response
-    /// </value>
+    /// </summary>
     public Int32 StatusCode { get; set; }
 }
 
@@ -21,5 +25,8 @@ public class ApiResponse
 /// <typeparam name="T">The type returned by a successful outcome</typeparam>
 public class ApiResponse<T> : ApiResponse
 {
+    /// <summary>
+    /// The provided data in a response
+    /// </summary>
     public T Data { get; set; }
 }

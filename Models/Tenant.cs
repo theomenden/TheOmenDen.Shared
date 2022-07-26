@@ -1,5 +1,4 @@
-﻿
-namespace TheOmenDen.Shared.Models;
+﻿namespace TheOmenDen.Shared.Models;
 
 /// <summary>
 /// Provides basic information about a tenant
@@ -8,4 +7,4 @@ namespace TheOmenDen.Shared.Models;
 /// <param name="Code">Provided Tenant Code</param>
 /// <param name="Name">A tenant's Name</param>
 /// <param name="Key">A particular string based key</param>
-public record struct Tenant(Guid Id, String Code, String Name, Int32 Key);
+public sealed record Tenant(Guid Id, String Code, String Name, Int32 Key);

@@ -3,12 +3,11 @@
 /// <summary>
 /// Indicates the outcome of a particular operation
 /// </summary>
-public class OperationResult : EnumerationBase
+public record OperationResult : EnumerationBase
 {
     private OperationResult(String name, Int32 id)
     : base(name, id)
-    {
-    }
+    {}
 
     /// <value>
     /// The operation succeeded

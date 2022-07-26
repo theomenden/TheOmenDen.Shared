@@ -1,7 +1,9 @@
 ﻿using System.Linq.Expressions;
 
 namespace TheOmenDen.Shared.Extensions;
-
+/// <summary>
+/// Defines extensions methods for <see cref="DbSet{TEntity}"/>s
+/// </summary>
 public static class DbSetExtensions
 {
     /// <summary>

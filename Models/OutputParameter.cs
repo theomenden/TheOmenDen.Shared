@@ -2,21 +2,26 @@
 
 public class OutputParameter<TValue>
 {
-    private bool _valueSet = false;
+    private bool _valueSet;
 
-    public TValue _value;
+    private TValue _value;
+
     public TValue Value
     {
         get
         {
             if (!_valueSet)
+            {
                 throw new InvalidOperationException("Value not set.");
+            }
 
             return _value;
         }
+
+        set => SetValue(value);
     }
 
-    internal void SetValue(object value)
+    private void SetValue(object? value)
     {
         _valueSet = true;
 

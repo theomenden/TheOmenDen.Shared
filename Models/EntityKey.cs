@@ -3,17 +3,30 @@
 /// <summary>
 /// <inheritdoc cref="IEntityKey"/> 
 /// </summary>
-public record struct EntityKey : IEntityKey
+public sealed record EntityKey : IEntityKey
 {
-    public EntityKey(Guid? id, DateTime? createdAt, Tenant? tenant, User? creator)
+    private EntityKey(Guid? id, DateTime? createdAt, Tenant tenant, User creator)
     {
         Id = id ?? Guid.NewGuid();
         CreatedAt = createdAt ?? DateTime.UtcNow;
-        Tenant = tenant ?? default;
-        Creator = creator ?? default;
+        Tenant = tenant;
+        Creator = creator;
     }
 
-    public Guid Id {get;}
+    /// <summary>
+    /// Creates a new <see cref="EntityKey"/> instance
+    /// </summary>
+    /// <param name="id">A unique Id</param>
+    /// <param name="createdAt">The time created</param>
+    /// <param name="tenant">The tenant used</param>
+    /// <param name="creator">The originator</param>
+    /// <returns>The newly created key</returns>
+    public static EntityKey Create(Guid id, DateTime createdAt, Tenant tenant, User creator)
+    {
+        return new EntityKey(id, createdAt, tenant, creator);
+    }
+
+    public Guid Id { get; }
 
     public DateTime CreatedAt { get; }
 
@@ -23,7 +36,7 @@ public record struct EntityKey : IEntityKey
 
     public bool Equals(EntityKey other)
     {
-        return other.Id == Id 
+        return other?.Id == Id
             && other.Tenant == Tenant
             && other.Creator == Creator;
     }

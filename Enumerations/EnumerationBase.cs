@@ -3,24 +3,18 @@
 /// <summary>
 /// <para>A replacement implementation for the standard Enumeration</para>
 /// </summary>
-/// <remarks>Implements <see cref="IEquatable{T}"/> | <seealso cref="IComparable"/></remarks>
-public abstract class EnumerationBase : IEquatable<EnumerationBase>, IComparable
+/// <remarks>Implements <seealso cref="IComparable"/></remarks>
+public abstract record EnumerationBase(string Name, int Id) : IComparable
 {
-    protected EnumerationBase(string name, int id)
-    {
-        Name = name;
-        Id = id;
-    }
-
     /// <summary>
     /// The enumeration name
     /// </summary>
-    public String Name { get; }
+    public String Name { get; } = Name;
 
     /// <summary>
     /// The integer representation
     /// </summary>
-    public int Id { get; }
+    public int Id { get; } = Id;
 
     public override string ToString() => Name;
     
@@ -99,22 +93,6 @@ public abstract class EnumerationBase : IEquatable<EnumerationBase>, IComparable
     }
 
     #region Method Overrides
-    public override bool Equals(object obj)
-    {
-        if (obj is null)
-        {
-            return false;
-        }
-
-        if (ReferenceEquals(this, obj))
-        {
-            return true;
-        }
-
-        var typeMatches = GetType() == obj.GetType();
-
-        return obj is EnumerationBase other && Id.Equals(other.Id) && typeMatches;
-    }
 
     public override int GetHashCode()
     {
@@ -123,7 +101,7 @@ public abstract class EnumerationBase : IEquatable<EnumerationBase>, IComparable
 
     public Int32 CompareTo(object other) => Id.CompareTo(((EnumerationBase)other).Id);
 
-    public bool Equals(EnumerationBase other)
+    public virtual bool Equals(EnumerationBase other)
     {
         if (other is null)
         {
@@ -134,16 +112,6 @@ public abstract class EnumerationBase : IEquatable<EnumerationBase>, IComparable
     }
     #endregion
     #region Operator Overloads
-    public static bool operator ==(EnumerationBase left, EnumerationBase right)
-    {
-        return left?.Equals(right) ?? right is null;
-    }
-
-    public static bool operator !=(EnumerationBase left, EnumerationBase right)
-    {
-        return !(left == right);
-    }
-
     public static bool operator <(EnumerationBase left, EnumerationBase right)
     {
         return left is null ? right is { } : left.CompareTo(right) < 0;
