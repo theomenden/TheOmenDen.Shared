@@ -9,7 +9,7 @@ public static class ExceptionExtensions
     public static Exception GetInnermostException(this Exception exception)
     {
         var exceptionToCheck = exception;
-        
+
         while (exceptionToCheck.InnerException != null)
         {
             exceptionToCheck = exceptionToCheck.InnerException;
@@ -23,8 +23,5 @@ public static class ExceptionExtensions
     /// </summary>
     /// <param name="exception">The provided exception</param>
     /// <returns><see cref="String"/></returns>
-    public static string GetInnermostExceptionMessage(this Exception exception)
-    {
-        return GetInnermostException(exception).Message;
-    }
+    public static string GetInnermostExceptionMessage(this Exception exception) => GetInnermostException(exception).Message;
 }
