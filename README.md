@@ -16,11 +16,21 @@
    - Currently limited to a "lazy" implementation of `IEnumerable<T>.Any<T>()`;
 6. Base Record types for QueryStrings and Events
    - Providing immutability
-7. ~~Open Generic Registrations for IApiService implementations~~ Moved to TheOmenDen.Shared.Services
-8. ~~Automatic Registrations for IApiService and IApiStreamService implementations via [Scrutor](https://github.com/khellang/Scrutor)~~ Moved to TheOmenDen.Shared.Services
 
-## Moving from V1 -> V2 will incur breaking changes as I have determined that manipulating the shared libary as a massive project is a bit difficult to maintain. From now on, we'll keep the ideas of what each section of the shared project has separated. This is based off of necessity and my personal obession with cleanliness.
-
+## Async Stream Handling Features
+1. Provided in the `AsynchronousStreamOutcome` set of extensions are a few methods for capturing `OperationOutcome` during the iterations of an `IAsyncEnumerable<T>`
+   - The `T` in question _must_ implement our `IEntity` interface. 
+   - We aim to work solely with asynchronous iterations provided by an `await foreach()` pattern
+   - We also aim to provide a simple, and easy to interpret API for further processing and alignment by avoiding an underlying `try...catch` within the Async Iterator.  
+2. Our current implementation allows for the simplicity of just providing a long running delegate of an individual operation. `Func<in T, in CancellationToken, out ValueTask<OperationOutcome>>`
+   - This guarantees that the underlying operation is asynchronous
+   - This also ensures that the operation returns an `OperationOutcome` object 
+3. With this provided, our intent on design is twofold -
+   - Firstly We remove the basis for throwing an exception over the stream.
+   - Secondly We allow for individual failures to occur during the stream.
+     - With this approach, we aim to allow for multiple failures to occur during the stream, while maintaining a consistent reporting behavior to allow for a more streamlined client experience. 
+     - We also aim for the `Tuple<T,OperationOutcome>` coupling to be a launching strategy for further processing.
+    
 ### Note: V2 will be identified by
    - Releases will tagged as V2
    - Package versions will have the first 3 parts of their versioning as a date after: `2022.7.26`
