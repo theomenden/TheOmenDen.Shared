@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains the various types of logging events for errors.
 /// </summary>
-public record EventIdIdentifier: EnumerationBase
+public sealed record EventIdIdentifier: EnumerationBase
 {
     private EventIdIdentifier(String name, Int32 id)
         :base(name, id)

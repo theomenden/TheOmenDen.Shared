@@ -28,8 +28,8 @@ public static class StringBuilderPoolFactory<T>
     /// Retrieves a <see cref="StringBuilder"/> from the underlying <see cref="StringBuilderPool"/> that matches the provided <paramref name="key"/>
     /// </summary>
     /// <param name="key">The key to search with</param>
-    /// <returns><see cref="StringBuilder"/></returns>
-    public static StringBuilder Get(String key)
+    /// <returns><see cref="StringBuilder"/> if it exists in the pool, <see langword="null"/> otherwise</returns>
+    public static StringBuilder? Get(String key)
     {
         lock (_stringBuilderLock)
         {
@@ -44,6 +44,7 @@ public static class StringBuilderPoolFactory<T>
     /// </summary>
     /// <param name="key">The key to search with</param>
     /// <returns>The <see cref="StringBuilder"/></returns>
+    /// <remarks>If the <paramref name="key"/> doesn't exist, we create the builder and try to add it to the pool. Otherwise, we get the one currently existing matching the key</remarks>
     public static StringBuilder Create(String key)
     {
         lock (_stringBuilderLock)

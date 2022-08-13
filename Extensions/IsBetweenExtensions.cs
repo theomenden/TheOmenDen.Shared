@@ -9,11 +9,10 @@ public static class IsBetweenExtensions
     /// <param name="value">The value to check</param>
     /// <param name="lowerBound">The lower boundary point</param>
     /// <param name="upperBound">The upper boundary point</param>
-    /// <returns><see cref="bool"/></returns>
+    /// <returns><see langword="true"/> when the value falls between the range; <see langword="false"/> otherwise</returns>
     public static bool IsBetween<T>(this T value, T lowerBound, T upperBound) where T : IComparable<T>
-    {
-        return lowerBound.CompareTo(value) <= 0 && upperBound.CompareTo(value) >= 0;
-    }
+        => lowerBound.CompareTo(value) <= 0 
+           && upperBound.CompareTo(value) >= 0;
 
     /// <summary>
     /// <paramref name="lowerBound"/> &lt; <paramref name="value"/> ≤ <paramref name="upperBound"/>
@@ -22,11 +21,11 @@ public static class IsBetweenExtensions
     /// <param name="value">The value to check</param>
     /// <param name="lowerBound">The lower boundary point</param>
     /// <param name="upperBound">The upper boundary point</param>
-    /// <returns><see cref="bool"/></returns>
+    /// <returns><see langword="true"/> when the value falls between the range; <see langword="false"/>When the value is at the lower boundary, and otherwise</returns>
     public static bool IsBetweenExclusiveLowerBound<T>(this T value, T lowerBound, T upperBound) where T : IComparable<T>
-    {
-        return lowerBound.CompareTo(value) < 0 && value.CompareTo(upperBound) <= 0;
-    }
+        => lowerBound.CompareTo(value) < 0 
+           && value.CompareTo(upperBound) <= 0;
+
 
     /// <summary>
     /// <paramref name="lowerBound"/> ≤ <paramref name="value"/> &lt; <paramref name="upperBound"/>
@@ -35,11 +34,11 @@ public static class IsBetweenExtensions
     /// <param name="value">The value to check</param>
     /// <param name="lowerBound">The lower boundary point</param>
     /// <param name="upperBound">The upper boundary point</param>
-    /// <returns><see cref="bool"/></returns>
+    /// <returns><see langword="true"/> when the value falls between the range; <see langword="false"/> otherwise</returns>
     public static bool IsBetweenExclusiveUpperBound<T>(this T value, T lowerBound, T upperBound) where T : IComparable<T>
-    {
-        return lowerBound.CompareTo(value) <= 0 && upperBound.CompareTo(value) > 0;
-    }
+        => lowerBound.CompareTo(value) <= 0 
+           && upperBound.CompareTo(value) > 0;
+
 
     /// <summary>
     /// <paramref name="lowerBound"/> &lt; <paramref name="value"/> &lt; <paramref name="upperBound"/>
@@ -48,11 +47,11 @@ public static class IsBetweenExtensions
     /// <param name="value">The value to check</param>
     /// <param name="lowerBound">The lower boundary point</param>
     /// <param name="upperBound">The upper boundary point</param>
-    /// <returns><see cref="bool"/></returns>
+    /// <returns><see langword="true"/> when the value falls exclusively between the range; <see langword="false"/> At Either boundary point, or otherwise.</returns>
     public static bool IsBetweenExclusiveBounds<T>(this T value, T lowerBound, T upperBound) where T : IComparable<T>
-    {
-        return lowerBound.CompareTo(value) < 0 && upperBound.CompareTo(value) > 0;
-    }
+        => lowerBound.CompareTo(value) < 0 
+           && upperBound.CompareTo(value) > 0;
+
 
     /// <summary>
     /// <paramref name="value"/> &gt; <paramref name="upperBound"/> or <paramref name="value"/> &lt; <paramref name="lowerBound"/>
@@ -61,9 +60,8 @@ public static class IsBetweenExtensions
     /// <param name="value">The value to check</param>
     /// <param name="lowerBound">The lower boundary point</param>
     /// <param name="upperBound">The upper boundary point</param>
-    /// <returns><see cref="bool"/></returns>
+    /// <returns><see langword="true"/> When the value falls outside the range; <see langword="false"/> otherwise</returns>
     public static bool IsNotBetween<T>(this T value, T lowerBound, T upperBound) where T : IComparable<T>
-    {
-        return !IsBetween(value, lowerBound, upperBound);
-    }
+        => !IsBetween(value, lowerBound, upperBound);
+
 }

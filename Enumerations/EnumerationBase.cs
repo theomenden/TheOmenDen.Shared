@@ -9,6 +9,9 @@ public abstract record EnumerationBase(string Name, int Id) : IComparable
     /// <summary>
     /// The enumeration name
     /// </summary>
+    /// <value>
+    /// Typically defined with the <see langword="nameof"/> operator
+    /// </value>
     public String Name { get; } = Name;
 
     /// <summary>

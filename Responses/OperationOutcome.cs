@@ -5,7 +5,7 @@ namespace TheOmenDen.Shared.Responses;
 /// <summary>
 /// Definitions for various cross-app operations
 /// </summary>
-public class OperationOutcome
+public sealed class OperationOutcome
 {
     public OperationOutcome()
     {

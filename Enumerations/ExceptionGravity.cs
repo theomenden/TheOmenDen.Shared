@@ -3,7 +3,7 @@
 /// <summary>
 /// Defines the severity of a particular exception
 /// </summary>
-public record ExceptionGravity : EnumerationBase
+public sealed record ExceptionGravity : EnumerationBase
 {
     private ExceptionGravity(String name, Int32 id)
         : base(name, id)

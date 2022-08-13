@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains logging event identifiers for tracing application flow
 /// </summary>
-public record TraceEventIdentifiers: EnumerationBase
+public sealed record TraceEventIdentifiers: EnumerationBase
 {
     private TraceEventIdentifiers(String name, Int32 id)
         : base(name, id)
