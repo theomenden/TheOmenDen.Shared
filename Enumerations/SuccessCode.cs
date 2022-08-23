@@ -4,7 +4,7 @@
 /// A set of suggested codes that indicate various successful operations
 /// </summary>
 /// <remarks><inheritdoc cref="EnumerationBase"/></remarks>
-public sealed record SuccessCode: EnumerationBase
+public sealed record SuccessCode: EnumerationBase<SuccessCode>
 {
     private SuccessCode(String name, Int32 id)
         : base(name, id)

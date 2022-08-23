@@ -3,7 +3,7 @@
 /// <summary>
 /// Indicates the outcome of a particular operation
 /// </summary>
-public sealed record OperationResult : EnumerationBase
+public sealed record OperationResult : EnumerationBase<OperationResult>
 {
     private OperationResult(String name, Int32 id)
     : base(name, id)

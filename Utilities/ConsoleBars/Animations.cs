@@ -1,7 +1,7 @@
 ﻿namespace TheOmenDen.Shared.Utilities.ConsoleBars;
 internal static class Animations
 {
-    public const char Hashtag = '■';
+    public const char SolidBlock = '■';
 
     public const char NonDestructiveBackspace = '\b';
 

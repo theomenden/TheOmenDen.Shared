@@ -53,7 +53,7 @@ public sealed class BasicLoaders
                 continue;
             }
 
-            Console.Write(Animations.Hashtag);
+            Console.Write(Animations.SolidBlock);
         }
 
         Console.Write($"{Animations.RightBracket}{Animations.Space}" + @"{0,3:##0}%", percent);

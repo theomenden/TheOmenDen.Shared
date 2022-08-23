@@ -1,4 +1,8 @@
-﻿#region System Usings
+﻿
+global using TheOmenDen.Shared.Extensions;
+
+#region System Usings
+
 global using System;
 global using System.Collections.Generic;
 global using System.Net.Http;

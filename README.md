@@ -1,23 +1,29 @@
 # The Omen Den Shared Library [![Build](https://github.com/theomenden/TheOmenDen.Shared/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/theomenden/TheOmenDen.Shared/actions/workflows/sonarcloud.yml)[![GitHub issues](https://img.shields.io/github/issues/theomenden/TheOmenDen.Shared?style=plastic)](https://github.com/theomenden/TheOmenDen.Shared/issues)[![GitHub license](https://img.shields.io/github/license/theomenden/TheOmenDen.Shared?style=plastic)](https://github.com/theomenden/TheOmenDen.Shared/blob/master/LICENSE.txt)[![GitHub stars](https://img.shields.io/github/stars/theomenden/TheOmenDen.Shared?style=plastic)](https://github.com/theomenden/TheOmenDen.Shared/stargazers)
 
-- This is just a grouping of common classes that are used within every application that The Omen Den aims to provide as a company, and is free to modify, redistribute, and use elsewhere
-- Especially since this library is sure to not be unique to us.
+- ##  This is just a grouping of common classes that are used within every application that The Omen Den aims to provide as a company, and is free to modify, redistribute, and use elsewhere
+ - ## Especially since this library is sure to not be unique to us.
 
-## A grouping of classes that aims to provide:
-1. Relevant extensions accross The Omen Den's software applications
+# Goals that we aim for:
+1. Relevant extensions across The Omen Den's software applications
 2. Exception calling, and custom exceptions
-3. Pooling extensions for Stringbuilder and Arrays
+3. Pooling extensions for StringBuilder and Arrays
    - Hopefully working towards far less overhead than constantly newing these types up
-   - In the case of arrays, adding "slicing" subarray functionality
+   - In the case of arrays, adding "slicing" SubArray functionality
 4. Custom Enumerations (both standard, and "smart")
    - Providing ways to grade exceptions via gravity
-   - Providing ways to use "smart" enumerations for differing control flow
-5. Starting of LINQ methods for ReadOnlySpan<T>
-   - Currently limited to a "lazy" implementation of `IEnumerable<T>.Any<T>()`;
-6. Base Record types for QueryStrings and Events
-   - Providing immutability
-
-## Async Stream Handling Features
+   - Providing ways to use "smarter" enumerations for differing control flow
+   - Provides two structs `Conditions and Consequences` that can be chained together against the `EnumerationBase` implementations
+   - Inspired by:
+     1. [The Smart Enumerations Library](https://github.com/ardalis/SmartEnum)
+     2. [This article by Jimmy Bogard](https://lostechies.com/jimmybogard/2008/08/12/enumeration-classes/)
+5. Provides simple LINQ methods for `ReadOnlySpan<T>`
+6. Base Record types for `QueryStrings`
+7. AsyncLazyInitializer type sourced from: [Microsoft Dev Blogs](https://devblogs.microsoft.com/pfxteam/asynclazyt/)
+8. Extensions on the `Type Type` to allow for easier retrieval of ancestors
+9. Provides `Progress Bars` that can also be threadsafe, as well as a simple progress indicator.
+   - Gives the caller the ability to specify a change in the `ConsoleColor` with any one of the provided colors.
+   - Provides a relatively smooth, and rate-adjustable animation on the progress indicator   
+# Async Stream Handling Features
 1. Provided in the `AsynchronousStreamOutcome` set of extensions are a few methods for capturing `OperationOutcome` during the iterations of an `IAsyncEnumerable<T>`
    - The `T` in question _must_ implement our `IEntity` interface. 
    - We aim to work solely with asynchronous iterations provided by an `await foreach()` pattern
@@ -30,7 +36,10 @@
    - Secondly We allow for individual failures to occur during the stream.
      - With this approach, we aim to allow for multiple failures to occur during the stream, while maintaining a consistent reporting behavior to allow for a more streamlined client experience. 
      - We also aim for the `Tuple<T,OperationOutcome>` coupling to be a launching strategy for further processing.
-    
-### Note: V2 will be identified by
-   - Releases will tagged as V2
-   - Package versions will have the first 3 parts of their versioning as a date after: `2022.7.26`
+
+# TODOs:
+1. Consolidate multiple instances of `EnumerationBase` into a single instance
+2. Provide better source generation for our generic implementations
+3. Provide clearer, and more accessible documentation
+4. Add `.NET 7` and `.NET Standard` build targets.
+5. General clean-up, and optimizations

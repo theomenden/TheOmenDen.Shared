@@ -59,4 +59,8 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Delegates\" />
+  </ItemGroup>
 </Project>

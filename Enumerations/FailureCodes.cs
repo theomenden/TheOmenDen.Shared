@@ -4,7 +4,7 @@
 /// <para>A suggested set of templates for describing various application failures</para>
 /// </summary>
 /// <remarks><inheritdoc cref="EnumerationBase"/></remarks>
-public sealed record FailureCode : EnumerationBase
+public sealed record FailureCode : EnumerationBase<FailureCode>
 {
     private FailureCode(string name, int id) 
         : base(name, id)
