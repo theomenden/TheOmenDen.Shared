@@ -3,6 +3,7 @@
 namespace TheOmenDen.Shared.Enumerations;
 /// <summary>
 /// <para>A replacement implementation for the standard Enumeration</para>
+/// <para>Like the original <see langword="enum"/>, we use an <see cref="Int32"/> as the value field</para>
 /// </summary>
 /// <remarks>Implements <seealso cref="IComparable"/></remarks>
 public abstract record EnumerationBase<TKey> :
