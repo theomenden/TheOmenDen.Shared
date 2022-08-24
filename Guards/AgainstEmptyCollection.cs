@@ -2,7 +2,7 @@
 
 namespace TheOmenDen.Shared.Guards;
 
-public partial class Guard: ICanGuard
+public static partial class Guard
 {
     public static void FromEmptyCollection<T>(IEnumerable<T> collectionToCheck, String parameterName)
     {
@@ -23,7 +23,7 @@ public partial class Guard: ICanGuard
 
         var argumentException = new ArgumentException(message, parameterName);
 
-        FromEmptyCollection(parameterName, argumentException);
+        FromEmptyCollection(collectionToCheck, argumentException);
     }
 
     public static void FromEmptyCollection<T, TException>(IEnumerable<T> collectionToCheck)

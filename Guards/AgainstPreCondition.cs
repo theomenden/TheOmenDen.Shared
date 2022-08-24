@@ -2,7 +2,7 @@
 
 namespace TheOmenDen.Shared.Guards;
 
-public partial class Guard : ICanGuard
+public static partial class Guard
 {
     public static void FromCondition<TException>(Func<bool> predicate)
         where TException : Exception, new()

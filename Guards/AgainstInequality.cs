@@ -1,7 +1,7 @@
 ﻿using TheOmenDen.Shared.Guards.Templates;
 
 namespace TheOmenDen.Shared.Guards;
-public partial class Guard : ICanGuard
+public static partial class Guard
 {
     public static void FromInequality<T, TException>(T parameter, T value)
         where TException : Exception, new()

@@ -2,7 +2,7 @@
 
 namespace TheOmenDen.Shared.Guards;
 
-public partial class Guard : ICanGuard
+public static partial class Guard
 {
     public static void FromNull<T>(T? parameter, String parameterName)
         where T : class
@@ -29,8 +29,8 @@ public partial class Guard : ICanGuard
     }
 
     public static void FromNull<T, TException>(T parameter)
-            where T : class
-        where TException : Exception, new()
+    where T : class
+    where TException : Exception, new()
     {
         var message = String.Format(Messages.NullValueTemplate, Messages.BaseParameterName);
 
@@ -38,8 +38,8 @@ public partial class Guard : ICanGuard
     }
 
     public static void FromNull<T, TException>(T parameter, String message)
-        where T : class
-        where TException : Exception, new()
+    where T : class
+    where TException : Exception, new()
     {
         if (String.IsNullOrWhiteSpace(message))
         {
@@ -51,9 +51,9 @@ public partial class Guard : ICanGuard
         FromNull(parameter, exception);
     }
 
-    public static void FromNull<T, TException>(T parameter, TException exception)
-        where T : class
-        where TException : Exception, new()
+    public static void FromNull<T, TException>(T? parameter, TException exception)
+    where T : class
+    where TException : Exception, new()
     {
         if (exception is null)
         {

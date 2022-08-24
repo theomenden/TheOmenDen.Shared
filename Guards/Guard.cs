@@ -1,18 +1,5 @@
 ﻿namespace TheOmenDen.Shared.Guards;
 
-public partial class Guard : ICanGuard
+public static partial class Guard
 {
-    private static ICanGuard _against;
-
-    private Guard()
-    {
-    }
-
-    public static ICanGuard Against
-    {
-        get
-        {
-            return _against ?? new Guard();
-        }
-    }
 }

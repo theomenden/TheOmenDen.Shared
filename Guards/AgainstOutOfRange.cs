@@ -1,6 +1,6 @@
 ﻿namespace TheOmenDen.Shared.Guards;
 
-public partial class Guard : ICanGuard
+public static partial class Guard
 {
     public static void FromLowerBoundary<T, TException>(T value, T lowerBound, T upperBound, TException exception)
         where T: IComparable, IComparable<T>
