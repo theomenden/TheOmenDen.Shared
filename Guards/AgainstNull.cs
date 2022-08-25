@@ -5,13 +5,11 @@ namespace TheOmenDen.Shared.Guards;
 public static partial class Guard
 {
     public static void FromNull<T>(T? parameter, String parameterName)
-        where T : class
     {
         FromNull(parameter, parameterName, null);
     }
 
     public static void FromNull<T>(T parameter, String parameterName, String message)
-    where T : class
     {
         if (String.IsNullOrWhiteSpace(parameterName))
         {
@@ -29,7 +27,6 @@ public static partial class Guard
     }
 
     public static void FromNull<T, TException>(T parameter)
-    where T : class
     where TException : Exception, new()
     {
         var message = String.Format(Messages.NullValueTemplate, Messages.BaseParameterName);
@@ -38,7 +35,6 @@ public static partial class Guard
     }
 
     public static void FromNull<T, TException>(T parameter, String message)
-    where T : class
     where TException : Exception, new()
     {
         if (String.IsNullOrWhiteSpace(message))
@@ -52,7 +48,6 @@ public static partial class Guard
     }
 
     public static void FromNull<T, TException>(T? parameter, TException exception)
-    where T : class
     where TException : Exception, new()
     {
         if (exception is null)

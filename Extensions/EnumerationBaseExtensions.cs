@@ -1,6 +1,28 @@
 ﻿namespace TheOmenDen.Shared.Extensions;
 public static class EnumerationBaseExtensions
 {
+    public static Boolean IsEnumerationConstruct<T>() => IsEnumerationConstruct(typeof(T)).isConstruct;
+
+    public static (Boolean isConstruct, Type[] genericArguments) IsEnumerationConstruct(this Type type)
+    {
+        if (type is null || type.IsAbstract || type.IsGenericTypeDefinition)
+        {
+            return (false, Array.Empty<Type>());
+        }
+
+        do
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(EnumerationBase<,>))
+            {
+                return (true, type.GetGenericArguments());
+            }
+            type = type.BaseType;
+        }
+        while (type is not null);
+
+        return (false, Array.Empty<Type>());
+    }
+
     /// <summary>
     /// Retrieves all the underlying <typeparamref name="T"/>
     /// </summary>
@@ -57,7 +79,7 @@ public static class EnumerationBaseExtensions
     /// <typeparam name="T">The type of <see cref="EnumerationBase{TKey}"/> to return</typeparam>
     /// <param name="name">The provided name</param>
     /// <returns><see cref="ValueTuple"/>: <see cref="bool"/>, <typeparamref name="T"/></returns>
-    public static (bool isSuccessful, T result) TryParse<T>(String name) 
+    public static (bool isSuccessful, T result) TryParse<T>(String name)
         where T : EnumerationBase<T>
     {
         return TryParse<T>(name, true);
@@ -71,7 +93,7 @@ public static class EnumerationBaseExtensions
     /// <param name="ignoreCase">If the attempt at parsing will ignore the provided <paramref name="name"/> casing</param>
     /// <returns><see cref="ValueTuple"/>: (<see cref="bool"/>, <typeparamref name="T"/>)</returns>
     /// <remarks>Uses <see cref="StringComparison.Ordinal"/> under the hood, and <see cref="StringComparison.OrdinalIgnoreCase"/> when <paramref name="ignoreCase"/> is <c>True</c></remarks>
-    public static (bool isSuccessful, T result) TryParse<T>(String name, bool ignoreCase) 
+    public static (bool isSuccessful, T result) TryParse<T>(String name, bool ignoreCase)
         where T : EnumerationBase<T>
     {
         var containingEnums = GetAll<T>();
