@@ -1,5 +1,4 @@
-﻿
-namespace TheOmenDen.Shared.Guards.Templates;
+﻿namespace TheOmenDen.Shared.Guards.Templates;
 
 internal static class Messages
 {

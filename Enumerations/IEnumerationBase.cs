@@ -1,6 +1,2 @@
 ﻿namespace TheOmenDen.Shared.Enumerations;
-
-public interface IEnumerationBase
-{
-}
-
+public interface IEnumerationBase {}

@@ -7,32 +7,31 @@ namespace TheOmenDen.Shared.Enumerations;
 /// <summary>
 /// 
 /// </summary>
-/// <typeparam name="TKey"></typeparam>
-public abstract record EnumerationBaseFlag<TKey> :
-    EnumerationBaseFlag<TKey, Int32>
-    where TKey : EnumerationBaseFlag<TKey, Int32>
+/// <typeparam name="TEnumKey"></typeparam>
+public abstract record EnumerationBaseFlag<TEnumKey> :
+    EnumerationBaseFlag<TEnumKey, Int32>
+    where TEnumKey : EnumerationBaseFlag<TEnumKey, Int32>
 {
     protected EnumerationBaseFlag(String name, Int32 value)
-    :base(name, value)
+    : base(name, value)
     {
-
     }
 }
 
 /// <summary>
 /// 
 /// </summary>
-/// <typeparam name="TKey"></typeparam>
-/// <typeparam name="TValue"></typeparam>
-public abstract record EnumerationBaseFlag<TKey, TValue> :
-    EnumerationBaseFlagAbstraction<TKey, TValue>,
+/// <typeparam name="TEnumKey"></typeparam>
+/// <typeparam name="TEnumValue"></typeparam>
+public abstract record EnumerationBaseFlag<TEnumKey, TEnumValue> :
+    EnumerationBaseFlagAbstraction<TEnumKey, TEnumValue>,
     IEnumerationBase,
-    IComparable<EnumerationBaseFlag<TKey, TValue>>
-    where TKey : EnumerationBaseFlag<TKey, TValue>
-    where TValue : IEquatable<TValue>, IComparable<TValue>
+    IComparable<EnumerationBaseFlag<TEnumKey, TEnumValue>>
+    where TEnumKey : EnumerationBaseFlag<TEnumKey, TEnumValue>
+    where TEnumValue : IEquatable<TEnumValue>, IComparable<TEnumValue>
 {
     #region Constructors
-    protected EnumerationBaseFlag(String name, TValue value)
+    protected EnumerationBaseFlag(String name, TEnumValue value)
     {
         if (String.IsNullOrWhiteSpace(name))
         {
@@ -47,7 +46,7 @@ public abstract record EnumerationBaseFlag<TKey, TValue> :
     #region Properties
     public String Name { get; }
 
-    public TValue Value { get; }
+    public TEnumValue Value { get; }
     #endregion
     #region Overrides
     public sealed override string ToString() => Name;
@@ -55,19 +54,19 @@ public abstract record EnumerationBaseFlag<TKey, TValue> :
     public override int GetHashCode() => Value.GetHashCode();
     #endregion
     #region Private Static Members
-    private static readonly Lazy<TKey[]> Enumerations =
+    private static readonly Lazy<TEnumKey[]> Enumerations =
         new(GetAllEnumerations, LazyThreadSafetyMode.ExecutionAndPublication);
 
-    private static readonly Lazy<Dictionary<String, TKey>> EnumValueFromNames =
+    private static readonly Lazy<Dictionary<String, TEnumKey>> EnumValueFromNames =
         new(() => Enumerations.Value.ToDictionary(item => item.Name));
 
-    private static readonly Lazy<Dictionary<String, TKey>> EnumValueFromNamesIgnoresCase =
+    private static readonly Lazy<Dictionary<String, TEnumKey>> EnumValueFromNamesIgnoresCase =
         new(() => Enumerations.Value.ToDictionary(item => item.Name, StringComparer.OrdinalIgnoreCase));
 
-    private static readonly Lazy<Dictionary<TValue, TKey>> EnumFromValue =
+    private static readonly Lazy<Dictionary<TEnumValue, TEnumKey>> EnumFromValue =
         new(() =>
         {
-            var enumDictionary = new Dictionary<TValue, TKey>()
+            var enumDictionary = new Dictionary<TEnumValue, TEnumKey>()
             ;
             foreach (var item in Enumerations.Value.Where(item => enumDictionary.ContainsKey(item.Value)))
             {
@@ -77,23 +76,23 @@ public abstract record EnumerationBaseFlag<TKey, TValue> :
             return enumDictionary;
         });
 
-    private static TKey[] GetAllEnumerations()
+    private static TEnumKey[] GetAllEnumerations()
     {
-        var baseEnum = typeof(TKey);
+        var baseEnum = typeof(TEnumKey);
 
         return Assembly.GetAssembly(baseEnum)
             .GetTypes()
             .Where(type => baseEnum.IsAssignableFrom(type))
-            .SelectMany(type => type.GetTypeFields<TKey>())
+            .SelectMany(type => type.GetTypeFields<TEnumKey>())
             .OrderBy(type => type.Name)
             .ToArray();
     }
 
-    private static TKey GetByName(String name, Dictionary<String, TKey> searchDictionary)
+    private static TEnumKey GetByName(String name, Dictionary<String, TEnumKey> searchDictionary)
     {
         if (!searchDictionary.TryGetValue(name, out var result))
         {
-            var message = String.Format(Messages.EnumerationNotFoundByName, typeof(TKey).Name, name);
+            var message = String.Format(Messages.EnumerationNotFoundByName, typeof(TEnumKey).Name, name);
 
             throw new EnumerationCouldNotBeParsedByValueException(message);
         }
@@ -102,82 +101,83 @@ public abstract record EnumerationBaseFlag<TKey, TValue> :
     }
     #endregion
     #region Public Static Members
-    public static IReadOnlyCollection<TKey> ReadOnlyEnumerationList
+    public static IReadOnlyCollection<TEnumKey> ReadOnlyEnumerationList
     => EnumValueFromNames.Value.Values
         .ToList()
         .AsReadOnly();
 
-    public static TKey Parse(String name, Boolean ignoreCase = false)
+    public static TEnumKey Parse(String name, Boolean ignoreCase = false)
     {
-        if (String.IsNullOrWhiteSpace(name))
+        if (!String.IsNullOrWhiteSpace(name))
         {
-            var message = String.Format(Messages.CannotBeNullOrEmpty, nameof(name));
-
-            throw new ArgumentNullException(message);
+            return GetByName(name,
+                ignoreCase
+                    ? EnumValueFromNamesIgnoresCase.Value
+                    : EnumValueFromNames.Value);
         }
 
-        return GetByName(name,
-            ignoreCase
-                ? EnumValueFromNamesIgnoresCase.Value
-                : EnumValueFromNames.Value);
+        var message = String.Format(Messages.CannotBeNullOrEmpty, nameof(name));
+
+        throw new ArgumentNullException(message);
     }
 
-    public static (Boolean result, TKey enumeration) TryParse(String name, Boolean ignoreCase)
+    public static (Boolean result, TEnumKey enumeration) TryParse(String name, Boolean ignoreCase)
     {
-        var tkeyResult = default(TKey);
+        TEnumKey keyResult;
 
         if (String.IsNullOrWhiteSpace(name))
         {
-            return new(false, tkeyResult);
+            return new(false, null);
         }
 
         if (ignoreCase)
         {
-            EnumValueFromNamesIgnoresCase.Value.TryGetValue(name, out tkeyResult);
+            EnumValueFromNamesIgnoresCase.Value.TryGetValue(name, out keyResult);
 
-            return new(true, tkeyResult);
+            return new(true, keyResult);
         }
 
-        EnumValueFromNames.Value.TryGetValue(name, out tkeyResult);
+        EnumValueFromNames.Value.TryGetValue(name, out keyResult);
 
-        return new(true, tkeyResult);
+        return new(true, keyResult);
     }
 
-    public static TKey ParseFromValue(TValue enumeration)
+    public static TEnumKey ParseFromValue(TEnumValue enumeration)
     {
-        var message = String.Empty;
+        string message;
 
         if (enumeration is null)
         {
             message = String.Format(Messages.CannotBeNullOrEmpty, nameof(enumeration));
+
             throw new ArgumentNullException(message);
         }
 
-        if (!EnumFromValue.Value.TryGetValue(enumeration, out var result))
+        if (EnumFromValue.Value.TryGetValue(enumeration, out var result))
         {
-            message = String.Format(Messages.EnumerationNotFoundByValue, typeof(TKey).Name, nameof(enumeration));
-
-            throw new EnumerationCouldNotBeParsedByValueException(message);
+            return result;
         }
 
-        return result;
+        message = String.Format(Messages.EnumerationNotFoundByValue, typeof(TEnumKey).Name, nameof(enumeration));
+
+        throw new EnumerationCouldNotBeParsedByValueException(message);
     }
 
-    public static TKey ParseFromValue(TValue enumeration, TKey defaultValue)
+    public static TEnumKey ParseFromValue(TEnumValue? enumeration, TEnumKey defaultValue)
     {
-        if (enumeration is null)
+        if (enumeration is not null)
         {
-            var message = String.Format(Messages.CannotBeNullOrEmpty, nameof(enumeration));
-
-            throw new ArgumentNullException(message);
+            return !EnumFromValue.Value.TryGetValue(enumeration, out var result)
+                ? defaultValue
+                : result;
         }
 
-        return !EnumFromValue.Value.TryGetValue(enumeration, out var result)
-            ? defaultValue
-            : result;
+        var message = String.Format(Messages.CannotBeNullOrEmpty, nameof(enumeration));
+
+        throw new ArgumentNullException(message);
     }
 
-    public static (Boolean result, TKey value) TryParseFromValue(TValue? enumeration, TKey defaultValue)
+    public static (Boolean result, TEnumKey value) TryParseFromValue(TEnumValue? enumeration, TEnumKey defaultValue)
     {
         if (enumeration is null)
         {
@@ -189,26 +189,26 @@ public abstract record EnumerationBaseFlag<TKey, TValue> :
         return new(true, result);
     }
 
-    public static TKey DeserializeValue(TValue value)
+    public static TEnumKey DeserializeValue(TEnumValue value)
     {
         var enumerations = GetAllEnumerations();
 
         return enumerations.FirstOrDefault(enumeration => enumeration.Value.Equals(value))
-            ?? throw new EnumerationNotFoundException(String.Format(Messages.EnumerationNotFoundByValue,typeof(TKey).Name, nameof(value)));
+            ?? throw new EnumerationNotFoundException(String.Format(Messages.EnumerationNotFoundByValue, typeof(TEnumKey).Name, nameof(value)));
     }
     #endregion
     #region Conditions and Consequences
-    public Consequence<TKey, TValue> When(EnumerationBaseFlag<TKey, TValue> enumerationCondition)
-        => new(Equals(enumerationCondition), false, this);
+    public Consequence<TEnumKey, TEnumValue> When(EnumerationBaseFlag<TEnumKey, TEnumValue> enumerationCondition)
+    => new(Equals(enumerationCondition), false, this);
 
-    public Consequence<TKey, TValue> When(IEnumerable<EnumerationBaseFlag<TKey, TValue>> genericEnumerationConditions)
+    public Consequence<TEnumKey, TEnumValue> When(IEnumerable<EnumerationBaseFlag<TEnumKey, TEnumValue>> genericEnumerationConditions)
     => new(genericEnumerationConditions.Contains(this), false, this);
 
-    public Consequence<TKey, TValue> When(params EnumerationBaseFlag<TKey, TValue>[] genericEnumerationConditions)
-        => new(genericEnumerationConditions.Contains(this), false, this);
+    public Consequence<TEnumKey, TEnumValue> When(params EnumerationBaseFlag<TEnumKey, TEnumValue>[] genericEnumerationConditions)
+    => new(genericEnumerationConditions.Contains(this), false, this);
     #endregion
     #region Implementations
-    public virtual bool Equals(EnumerationBaseFlag<TKey, TValue>? other)
+    public virtual bool Equals(EnumerationBaseFlag<TEnumKey, TEnumValue>? other)
     {
         if (ReferenceEquals(this, other))
         {
@@ -219,40 +219,38 @@ public abstract record EnumerationBaseFlag<TKey, TValue> :
                && Value.Equals(other.Value);
     }
 
-    public int CompareTo(EnumerationBaseFlag<TKey, TValue> other)
-    {
-        return Value.CompareTo(other.Value);
-    }
+    public int CompareTo(EnumerationBaseFlag<TEnumKey, TEnumValue> other)
+    => Value.CompareTo(other.Value);
     #endregion
     #region Operator Overloads
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator <(EnumerationBaseFlag<TKey, TValue> lhs,
-        EnumerationBaseFlag<TKey, TValue> rhs)
+    public static bool operator <(EnumerationBaseFlag<TEnumKey, TEnumValue> lhs,
+        EnumerationBaseFlag<TEnumKey, TEnumValue> rhs)
         => lhs.CompareTo(rhs) < 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator <=(EnumerationBaseFlag<TKey, TValue> lhs,
-        EnumerationBaseFlag<TKey, TValue> rhs)
+    public static bool operator <=(EnumerationBaseFlag<TEnumKey, TEnumValue> lhs,
+        EnumerationBaseFlag<TEnumKey, TEnumValue> rhs)
         => lhs.CompareTo(rhs) <= 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator >(EnumerationBaseFlag<TKey, TValue> lhs,
-        EnumerationBaseFlag<TKey, TValue> rhs)
+    public static bool operator >(EnumerationBaseFlag<TEnumKey, TEnumValue> lhs,
+        EnumerationBaseFlag<TEnumKey, TEnumValue> rhs)
         => lhs.CompareTo(rhs) > 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator >=(EnumerationBaseFlag<TKey, TValue> lhs,
-        EnumerationBaseFlag<TKey, TValue> rhs)
+    public static bool operator >=(EnumerationBaseFlag<TEnumKey, TEnumValue> lhs,
+        EnumerationBaseFlag<TEnumKey, TEnumValue> rhs)
         => lhs.CompareTo(rhs) >= 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator TValue(EnumerationBaseFlag<TKey, TValue> enumeration)
+    public static implicit operator TEnumValue(EnumerationBaseFlag<TEnumKey, TEnumValue> enumeration)
         => enumeration is not null ?
             enumeration.Value
             : default;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static explicit operator EnumerationBaseFlag<TKey, TValue>(TValue genericEnumeration)
+    public static explicit operator EnumerationBaseFlag<TEnumKey, TEnumValue>(TEnumValue genericEnumeration)
         => ParseFromValue(genericEnumeration);
     #endregion
 }

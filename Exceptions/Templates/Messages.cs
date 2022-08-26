@@ -20,7 +20,7 @@ internal static class Messages
     /// Used when an Enumeration has a value that is below 0
     /// </summary>
     /// <value>The Enumeration [EnumType] contains negative values</value>
-    /// <remarks> A value of (-1) can be allowed if overriden, see: <see cref="Enumerations.Attributes.AllowNegativeEnumerationKeysAttribute"/></remarks>
+    /// <remarks> A value of (-1) can be allowed if overridden, see: <see cref="Enumerations.Attributes.AllowNegativeEnumerationKeysAttribute"/></remarks>
     public const string EnumerationContainsNegativeValue = @"The Enumeration [{0}] contains negative values";
     /// <summary>
     /// Used when an Enumeration has a value that cannot be parsed into a <see cref="Int32"/>

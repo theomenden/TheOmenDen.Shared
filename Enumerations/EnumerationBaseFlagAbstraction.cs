@@ -4,10 +4,14 @@ using TheOmenDen.Shared.Exceptions.Templates;
 using TheOmenDen.Shared.Guards;
 
 namespace TheOmenDen.Shared.Enumerations;
-
-public abstract record EnumerationBaseFlagAbstraction<TKey, TEnumeration>
-where TKey : EnumerationBaseFlag<TKey, TEnumeration>
-where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="TEnumKey"></typeparam>
+/// <typeparam name="TEnumValue"></typeparam>
+public abstract record EnumerationBaseFlagAbstraction<TEnumKey, TEnumValue>
+where TEnumKey : EnumerationBaseFlag<TEnumKey, TEnumValue>
+where TEnumValue : IEquatable<TEnumValue>, IComparable<TEnumValue>
 {
     protected EnumerationBaseFlagAbstraction()
     {
@@ -19,15 +23,15 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
     /// <param name="enumeration">The enumeration's value we're looking to retrieve</param>
     /// <param name="allEnumerationKeys">An <see cref="IEnumerable{T}"/> <seealso cref="EnumerationBase{TKey, TEnumeration}"/></param>
     /// <returns><see cref="IEnumerable{T}"/> that represents a given <paramref name="enumeration"/> with a set of values</returns>
-    protected static IEnumerable<TKey> GetFlagValues(TEnumeration enumeration, IEnumerable<TKey> allEnumerationKeys)
+    protected static IEnumerable<TEnumKey> GetFlagValues(TEnumValue enumeration, IEnumerable<TEnumKey> allEnumerationKeys)
     {
         Guard.FromNull(enumeration, nameof(enumeration));
         Guard.FromInvalidInput(enumeration, nameof(enumeration));
         Guard.FromNegativeValues(enumeration, nameof(enumeration));
 
-        var inputValue = Int32.Parse(enumeration.ToString());
+        var inputValue = Int32.Parse(enumeration.ToString()!);
 
-        var enumerationFlagStates = new Dictionary<TKey, Boolean>(5);
+        var enumerationFlagStates = new Dictionary<TEnumKey, Boolean>(5);
 
         var inputKeys = allEnumerationKeys.ToList();
 
@@ -45,44 +49,47 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
 
             if (currentEnumerationAsInt == inputValue)
             {
-                return new List<TKey>{key};
+                return new List<TEnumKey> { key };
             }
 
             if (inputValue == -1 || enumeration.Equals(typedMaximumValue))
             {
-                return inputKeys.Where(x => Int64.Parse(x.Value.ToString() ?? String.Empty) > 0);
+                return inputKeys
+                    .Where(x => Int64.Parse(x.Value.ToString() ?? String.Empty) > 0);
             }
 
             AssignFlagStateValues(inputValue, currentEnumerationAsInt, key, enumerationFlagStates);
         }
-        
-        return inputValue > maximumKeyValueAllowed ? Enumerable.Empty<TKey>() : CreateKeysList(enumerationFlagStates);
+
+        return inputValue > maximumKeyValueAllowed ? Enumerable.Empty<TEnumKey>() : CreateKeysList(enumerationFlagStates);
     }
 
-    private static Int32 CalculateHighestAllowedFlag(List<TKey> inputList)
+    private static Int32 CalculateHighestAllowedFlag(IReadOnlyList<TEnumKey> inputList)
     => GetHighestFlagValue(inputList) * 2 - 1;
-    
+
 
     private static void CheckEnumerationForValuesLessThanNegativeOne(Int32 value)
     {
-        if (value < -1)
+        if (value >= -1)
         {
-            var message = String.Format(Messages.EnumerationContainsNegativeValue, typeof(TKey).Name);
-
-            throw new ArgumentValueWasNegativeException(message);
+            return;
         }
+
+        var message = String.Format(Messages.EnumerationContainsNegativeValue, typeof(TEnumKey).Name);
+
+        throw new ArgumentValueWasNegativeException(message);
     }
 
-    private static IEnumerable<TKey> CreateKeysList(Dictionary<TKey, Boolean> enumerationFlagStates)
+    private static IEnumerable<TEnumKey> CreateKeysList(Dictionary<TEnumKey, Boolean> enumerationFlagStates)
     => enumerationFlagStates
             .Where(entry => entry.Value)
             .Select(entry => entry.Key)
-            .ToList() ?? Enumerable.Empty<TKey>();
+            .ToArray() ?? Enumerable.Empty<TEnumKey>();
 
-    private static void AllowUnsafeFlags(IEnumerable<TKey> keys)
+    private static void AllowUnsafeFlags(IEnumerable<TEnumKey> keys)
     {
         var attribute =
-            (AllowUnsafeEnumerationKeysAttribute)Attribute.GetCustomAttribute(typeof(TKey),
+            (AllowUnsafeEnumerationKeysAttribute)Attribute.GetCustomAttribute(typeof(TEnumKey),
                 typeof(AllowUnsafeEnumerationKeysAttribute));
 
         if (attribute is null)
@@ -91,23 +98,25 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
         }
     }
 
-    private static void AssignFlagStateValues(Int32 inputValue, Int32 currentEnumerationValue, TKey key, IDictionary<TKey, Boolean> enumerationFlagStates)
+    private static void AssignFlagStateValues(Int32 inputValue, Int32 currentEnumerationValue, TEnumKey key, IDictionary<TEnumKey, Boolean> enumerationFlagStates)
     {
-        if(!enumerationFlagStates.ContainsKey(key) && currentEnumerationValue is not 0)
+        if (enumerationFlagStates.ContainsKey(key) || currentEnumerationValue is 0)
         {
-            var flagState = (inputValue & currentEnumerationValue) == currentEnumerationValue;
-
-            enumerationFlagStates.Add(key, flagState);
+            return;
         }
+
+        var flagState = (inputValue & currentEnumerationValue) == currentEnumerationValue;
+
+        enumerationFlagStates.Add(key, flagState);
     }
 
-    private static void CheckProvidedEnumerationsForPowersOfTwo(IEnumerable<TKey> enumerations)
+    private static void CheckProvidedEnumerationsForPowersOfTwo(IEnumerable<TEnumKey> enumerations)
     {
         var enumerationsAsList = enumerations.ToList();
-        var enumerationValues = Enumerable.Empty<Int32>().ToList();
 
-        enumerationValues
-            .AddRange(enumerationsAsList.Select(enumeration => Int32.Parse(enumeration.Value.ToString() ?? string.Empty)));
+        var enumerationValues = enumerationsAsList
+            .Select(enumeration => Int32.Parse(enumeration.Value.ToString() ?? string.Empty))
+            .ToArray();
 
         if (Int32.Parse(enumerationsAsList[0].Value.ToString() ?? String.Empty) == 0)
         {
@@ -126,7 +135,7 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
         {
             var nextPower = currentValue * 2;
 
-            var result = enumerationValues.BinarySearch(nextPower);
+            var result = Array.BinarySearch(enumerationValues, nextPower);
 
             if (result < 0)
             {
@@ -141,10 +150,10 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
     }
 
     private static Boolean IsAPowerOfTwo(Int32 numberToCheck)
-        => numberToCheck is not 0
-               && (numberToCheck & (numberToCheck - 1)) is 0;
+        =>  numberToCheck != 0
+        && (numberToCheck & (numberToCheck - 1)) == 0;
 
-    private static Int32 GetHighestFlagValue(IReadOnlyList<TKey> keyList)
+    private static Int32 GetHighestFlagValue(IReadOnlyList<TEnumKey> keyList)
     {
         var greatestIndex = keyList.Count - 1;
         var greatestValue = Int32.Parse(keyList[^1].Value.ToString() ?? string.Empty);
@@ -170,16 +179,18 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
         return greatestValue;
     }
 
-    private static TEnumeration GetMaximumValue()
+    private static TEnumValue GetMaximumValue()
     {
-        var maximumField = typeof(TEnumeration).GetField("MaxValue", BindingFlags.Public | BindingFlags.Static);
+        var maximumField = typeof(TEnumValue)
+            .GetField("MaxValue", BindingFlags.Public | BindingFlags.Static);
 
         if (maximumField is null)
         {
-            throw new NotSupportedException(typeof(TEnumeration).Name);
+            var message = String.Format(Messages.CannotBeNullOrEmpty, nameof(maximumField));
+            throw new ArgumentException(message);
         }
 
-        var maxValue = (TEnumeration)maximumField.GetValue(null);
+        var maxValue = (TEnumValue)maximumField.GetValue(null);
 
         return maxValue;
     }
