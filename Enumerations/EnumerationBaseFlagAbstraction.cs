@@ -155,7 +155,7 @@ where TEnumValue : IEquatable<TEnumValue>, IComparable<TEnumValue>
 
     private static Int32 GetHighestFlagValue(IReadOnlyList<TEnumKey> keyList)
     {
-        var greatestIndex = keyList.Count - 1;
+        var greatestIndex =  keyList.Count - 1;
         var greatestValue = Int32.Parse(keyList[^1].Value.ToString() ?? string.Empty);
 
         if (IsAPowerOfTwo(greatestValue))
