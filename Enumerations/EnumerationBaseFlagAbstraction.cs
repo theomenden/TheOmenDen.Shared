@@ -5,9 +5,9 @@ using TheOmenDen.Shared.Guards;
 
 namespace TheOmenDen.Shared.Enumerations;
 
-public abstract record EnumerationBaseFlagAbstraction<TKey, TEnumeration>
-where TKey : EnumerationBaseFlag<TKey, TEnumeration>
-where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
+public abstract record EnumerationBaseFlagAbstraction<TKey, TValue>
+where TKey : EnumerationBaseFlag<TKey, TValue>
+where TValue : IEquatable<TValue>, IComparable<TValue>
 {
     protected EnumerationBaseFlagAbstraction()
     {
@@ -19,7 +19,7 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
     /// <param name="enumeration">The enumeration's value we're looking to retrieve</param>
     /// <param name="allEnumerationKeys">An <see cref="IEnumerable{T}"/> <seealso cref="EnumerationBase{TKey, TEnumeration}"/></param>
     /// <returns><see cref="IEnumerable{T}"/> that represents a given <paramref name="enumeration"/> with a set of values</returns>
-    protected static IEnumerable<TKey> GetFlagValues(TEnumeration enumeration, IEnumerable<TKey> allEnumerationKeys)
+    protected static IEnumerable<TKey> GetFlagValues(TValue enumeration, IEnumerable<TKey> allEnumerationKeys)
     {
         Guard.FromNull(enumeration, nameof(enumeration));
         Guard.FromInvalidInput(enumeration, nameof(enumeration));
@@ -146,7 +146,7 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
 
     private static Int32 GetHighestFlagValue(IReadOnlyList<TKey> keyList)
     {
-        var greatestIndex = keyList.Count - 1;
+        var greatestIndex =  keyList.Count - 1;
         var greatestValue = Int32.Parse(keyList[^1].Value.ToString() ?? string.Empty);
 
         if (IsAPowerOfTwo(greatestValue))
@@ -170,16 +170,16 @@ where TEnumeration : IEquatable<TEnumeration>, IComparable<TEnumeration>
         return greatestValue;
     }
 
-    private static TEnumeration GetMaximumValue()
+    private static TValue GetMaximumValue()
     {
-        var maximumField = typeof(TEnumeration).GetField("MaxValue", BindingFlags.Public | BindingFlags.Static);
+        var maximumField = typeof(TValue).GetField("MaxValue", BindingFlags.Public | BindingFlags.Static);
 
         if (maximumField is null)
         {
-            throw new NotSupportedException(typeof(TEnumeration).Name);
+            throw new NotSupportedException(typeof(TValue).Name);
         }
 
-        var maxValue = (TEnumeration)maximumField.GetValue(null);
+        var maxValue = (TValue)maximumField.GetValue(null);
 
         return maxValue;
     }
