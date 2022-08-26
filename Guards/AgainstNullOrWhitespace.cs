@@ -5,21 +5,21 @@ namespace TheOmenDen.Shared.Guards;
 public static partial class Guard
 {
     /// <summary>
-    /// 
+    /// Protects the provided <paramref name="parameter"/> from being <see langword="null"/>, <see cref="String.Empty"/>, or whitespace
     /// </summary>
-    /// <param name="parameter"></param>
-    /// <param name="parameterName"></param>
+    /// <param name="parameter">The string we're aiming to protect</param>
+    /// <param name="parameterName">The name of the <paramref name="parameterName"/></param>
     public static void FromNullOrWhitespace(String parameter, String parameterName)
     {
         FromNullOrWhitespace(parameter, parameterName, null);
     }
 
     /// <summary>
-    /// 
+    /// Protects the provided <paramref name="parameter"/> from being <see langword="null"/>, <see cref="String.Empty"/>, or whitespace
     /// </summary>
-    /// <param name="parameter"></param>
-    /// <param name="parameterName"></param>
-    /// <param name="message"></param>
+    /// <param name="parameter">The string we're aiming to protect</param>
+    /// <param name="parameterName">The name of the <paramref name="parameterName"/></param>
+    /// <param name="message">The message we'll return to the caller via a custom <see cref="Exception"/></param>
     public static void FromNullOrWhitespace(String parameter, String parameterName, String message)
     {
         if (String.IsNullOrWhiteSpace(parameterName))
@@ -38,10 +38,10 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Protects the provided <paramref name="parameter"/> from being <see langword="null"/>, <see cref="String.Empty"/>, or whitespace 
     /// </summary>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
+    /// <typeparam name="TException">The type of exception we aim to throw</typeparam>
+    /// <param name="parameter">The string we're aiming to protect</param>
     public static void FromNullOrWhitespace<TException>(String parameter)
         where TException : Exception, new()
     {
@@ -51,11 +51,11 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Protects the provided <paramref name="parameter"/> from being <see langword="null"/>, <see cref="String.Empty"/>, or whitespace 
     /// </summary>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="message"></param>
+    /// <typeparam name="TException">The type of exception we aim to throw</typeparam>
+    /// <param name="parameter">The string we're aiming to protect</param>
+    /// <param name="message">The message we'll return to the caller via a custom <typeparamref name="TException"/></param>
     public static void FromNullOrWhitespace<TException>(String parameter, String message)
         where TException : Exception, new()
     {
@@ -70,12 +70,12 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Protects the provided <paramref name="parameter"/> from being <see langword="null"/>, <see cref="String.Empty"/>, or whitespace 
     /// </summary>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="exception"></param>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <typeparam name="TException">The type of exception we aim to throw</typeparam>
+    /// <param name="parameter">The string we're aiming to protect</param>
+    /// <param name="exception">The custom exception we're aiming to throw when the condition is not met</param>
+    /// <exception cref="ArgumentNullException">Thrown when the custom <typeparamref name="TException"/> <paramref name="exception"/> is <see langword="null"/></exception>
     public static void FromNullOrWhitespace<TException>(String parameter, TException exception)
         where TException : Exception, new()
     {

@@ -5,12 +5,12 @@ namespace TheOmenDen.Shared.Guards;
 public static partial class Guard
 {
     /// <summary>
-    /// 
+    /// Aims to protect the provided <paramref name="parameter"/> from going beneath the given <paramref name="lowerThreshold"/>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="lowerThreshold"></param>
-    /// <param name="message"></param>
+    /// <typeparam name="T">The type we're aiming to protect</typeparam>
+    /// <param name="parameter">The provided entity</param>
+    /// <param name="lowerThreshold">The lower threshold for the given entity type</param>
+    /// <param name="message">The custom message we aim to return via an exception</param>
     public static void FromValuesLessThan<T>(T parameter, T lowerThreshold, String message)
         where T : IComparable, IComparable<T>
     {
@@ -18,13 +18,13 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Aims to protect the provided <paramref name="parameter"/> from going beneath the given <paramref name="lowerThreshold"/>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="lowerThreshold"></param>
+    /// <typeparam name="T">The type we're aiming to protect</typeparam>
+    /// <param name="parameter">The provided entity</param>
+    /// <param name="lowerThreshold">The lower threshold for the given entity type</param>
     /// <param name="parameterName"></param>
-    /// <param name="message"></param>
+    /// <param name="message">The custom message we aim to return via an exception</param>
     public static void FromValuesLessThan<T>(T parameter, T lowerThreshold, String parameterName, String message)
         where T : IComparable, IComparable<T>
     {
@@ -44,13 +44,13 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Aims to protect the provided <paramref name="parameter"/> from going beneath the given <paramref name="lowerThreshold"/>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="lowerThreshold"></param>
-    /// <param name="message"></param>
+    /// <typeparam name="T">The type we're aiming to protect</typeparam>
+    /// <typeparam name="TException">The type of the exception we're aiming to throw</typeparam>
+    /// <param name="parameter">The provided entity</param>
+    /// <param name="lowerThreshold">The lower threshold for the given entity type</param>
+    /// <param name="message">The custom message we aim to return via an exception</param>
     public static void FromValuesLessThan<T, TException>(T parameter, T lowerThreshold, String message)
     where T: IComparable, IComparable<T>
     where TException: Exception, new()
@@ -66,14 +66,14 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Aims to protect the provided <paramref name="parameter"/> from going beneath the given <paramref name="lowerThreshold"/>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="lowerThreshold"></param>
-    /// <param name="exception"></param>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <typeparam name="T">The type we're aiming to protect</typeparam>
+    /// <typeparam name="TException">The type of the exception we're aiming to throw</typeparam>
+    /// <param name="parameter">The provided entity</param>
+    /// <param name="lowerThreshold">The lower threshold for the given entity type</param>
+    /// <param name="exception">The custom <typeparamref name="TException"/> we're aiming to throw when the condtion fails</param>
+    /// <exception cref="ArgumentNullException">Thrown when the provided <typeparamref name="TException"/> is <see langword="null"/></exception>
     public static void FromValuesLessThan<T, TException>(T parameter, T lowerThreshold, TException exception)
     where T: IComparable, IComparable<T>
     where TException : Exception, new()

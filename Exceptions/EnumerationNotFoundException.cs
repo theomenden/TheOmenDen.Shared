@@ -1,6 +1,9 @@
 ﻿using System.Runtime.Serialization;
 
 namespace TheOmenDen.Shared.Exceptions;
+/// <summary>
+/// Exception thrown when an <see cref="EnumerationBase{TEnumKey, TEnumValue}"/> cannot be found
+/// </summary>
 [Serializable]
 public class EnumerationNotFoundException : Exception
 {

@@ -144,7 +144,7 @@ where TEnumValue : IEquatable<TEnumValue>, IComparable<TEnumValue>
                 var message = String.Format(Messages.EnumerationNotConsecutivePowerOfTwo,
                     result, currentValue);
 
-                throw new EnumerationFlagWIthNoPowersOfTwoException(message);
+                throw new EnumerationFlagWithNoPowersOfTwoException(message);
             }
 
             currentValue = nextPower;

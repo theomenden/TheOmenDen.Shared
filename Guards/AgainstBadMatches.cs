@@ -6,12 +6,12 @@ namespace TheOmenDen.Shared.Guards;
 public static partial class Guard
 {
     /// <summary>
-    /// 
+    /// Checks to see if the supplied <paramref name="parameter"/> matches the supplied <paramref name="regexPattern"/>
     /// </summary>
-    /// <param name="parameter"></param>
-    /// <param name="parameterName"></param>
-    /// <param name="regexPattern"></param>
-    /// <param name="regexOptions"></param>
+    /// <param name="parameter">The value we aim to check</param>
+    /// <param name="parameterName">The name of the value</param>
+    /// <param name="regexPattern">The regular expression we're using</param>
+    /// <param name="regexOptions"><see cref="RegexOptions"/> Any addition regex options</param>
     public static void FromNotMatchingPattern(String parameter, String parameterName, String regexPattern, RegexOptions regexOptions = RegexOptions.None)
     {
         var message = String.Format(Messages.NotMatchedByPatternTemplate, Messages.BaseParameterName, regexPattern);
@@ -20,13 +20,13 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Checks to see if the supplied <paramref name="parameter"/> matches the supplied <paramref name="regexPattern"/>
     /// </summary>
-    /// <param name="parameter"></param>
-    /// <param name="parameterName"></param>
-    /// <param name="regexPattern"></param>
-    /// <param name="message"></param>
-    /// <param name="regexOptions"></param>
+    /// <param name="parameter">The value we aim to check</param>
+    /// <param name="parameterName">The name of the value</param>
+    /// <param name="regexPattern">The regular expression we're using</param>
+    /// <param name="message">The custom message we aim to throw with an exception</param>
+    /// <param name="regexOptions"><see cref="RegexOptions"/> Any addition regex options</param>
     public static void FromNotMatchingPattern(String parameter, String parameterName, String regexPattern, String message, RegexOptions regexOptions = RegexOptions.None)
     {
         if (String.IsNullOrWhiteSpace(parameterName))
@@ -46,12 +46,12 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Checks to see if the supplied <paramref name="parameter"/> matches the supplied <paramref name="regexPattern"/>
     /// </summary>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="regexPattern"></param>
-    /// <param name="regexOptions"></param>
+    /// <typeparam name="TException">The type of exception we aim to throw on failing the condition</typeparam>
+    /// <param name="parameter">The value we aim to check</param>
+    /// <param name="regexPattern">The regular expression we're using</param>
+    /// <param name="regexOptions"><see cref="RegexOptions"/> Any additional regex options</param>
     public static void FromNotMatchingPattern<TException>(String parameter, String regexPattern, RegexOptions regexOptions = RegexOptions.None)
     where TException : Exception, new()
     {
@@ -61,13 +61,13 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Checks to see if the supplied <paramref name="parameter"/> matches the supplied <paramref name="regexPattern"/>
     /// </summary>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="regexPattern"></param>
-    /// <param name="message"></param>
-    /// <param name="regexOptions"></param>
+    /// <typeparam name="TException">The type of exception we aim to throw on failing the condition</typeparam>
+    /// <param name="parameter">The value we aim to check</param>
+    /// <param name="regexPattern">The regular expression we're using</param>
+    /// <param name="message">The custom message we aim to return with the caller via a thrown exception</param>
+    /// <param name="regexOptions"><see cref="RegexOptions"/> Any additional regex options</param>
     public static void FromNotMatchingPattern<TException>(String parameter, String regexPattern, String message, RegexOptions regexOptions = RegexOptions.None)
         where TException : Exception, new()
     {
@@ -82,14 +82,14 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Checks to see if the supplied <paramref name="parameter"/> matches the supplied <paramref name="regexPattern"/>
     /// </summary>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="regexPattern"></param>
-    /// <param name="exception"></param>
-    /// <param name="regexOptions"></param>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <typeparam name="TException">The type of exception we aim to throw on failing the condition</typeparam>
+    /// <param name="parameter">The value we aim to check</param>
+    /// <param name="regexPattern">The regular expression we're using</param>
+    /// <param name="exception">The exception we aim to throw</param>
+    /// <param name="regexOptions"><see cref="RegexOptions"/> Any additional regex options</param>
+    /// <exception cref="ArgumentNullException">Thrown when any of the following are <see langword="null"/>: <paramref name="parameter"/>, <paramref name="regexPattern"/>, <paramref name="exception"/> </exception>
     public static void FromNotMatchingPattern<TException>(String parameter, string regexPattern, TException exception, RegexOptions regexOptions = RegexOptions.None)
         where TException : Exception, new()
     {

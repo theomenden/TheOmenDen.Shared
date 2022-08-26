@@ -5,23 +5,23 @@ namespace TheOmenDen.Shared.Guards;
 public static partial class Guard
 {
     /// <summary>
-    /// 
+    /// Checks if the <paramref name="parameter"/> is null, and throws an exception if it is.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="parameterName"></param>
+    /// <typeparam name="T">The type we're attempting to protect</typeparam>
+    /// <param name="parameter">The supplied entity</param>
+    /// <param name="parameterName">The name of the supplied entity</param>
     public static void FromNull<T>(T? parameter, String parameterName)
     {
         FromNull(parameter, parameterName, null);
     }
 
     /// <summary>
-    /// 
+    /// Checks if the <paramref name="parameter"/> is null, and throws an exception if it is.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="parameterName"></param>
-    /// <param name="message"></param>
+    /// <typeparam name="T">The type we're attempting to protect</typeparam>
+    /// <param name="parameter">The supplied entity</param>
+    /// <param name="parameterName">The name of the supplied entity</param>
+    /// <param name="message">The custom message we send back to the caller within the exception</param>
     public static void FromNull<T>(T parameter, String parameterName, String message)
     {
         if (String.IsNullOrWhiteSpace(parameterName))
@@ -40,11 +40,11 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Checks if the <paramref name="parameter"/> is null, and throws a(n) <typeparamref name="TException"/> if it is.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
+    /// <typeparam name="T">The type we're attempting to protect</typeparam>
+    /// <typeparam name="TException">The type of exception we aim to throw</typeparam>
+    /// <param name="parameter">The supplied entity</param>
     public static void FromNull<T, TException>(T parameter)
     where TException : Exception, new()
     {
@@ -54,12 +54,12 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Checks if the <paramref name="parameter"/> is null, and throws a(n) <typeparamref name="TException"/> if it is.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="message"></param>
+    /// <typeparam name="T">The type we're attempting to protect</typeparam>
+    /// <typeparam name="TException">The type of exception we aim to throw</typeparam>
+    /// <param name="parameter">The supplied entity</param>
+    /// <param name="message">The custom message we send back to the caller within the exception</param>
     public static void FromNull<T, TException>(T parameter, String message)
     where TException : Exception, new()
     {
@@ -74,13 +74,13 @@ public static partial class Guard
     }
 
     /// <summary>
-    /// 
+    /// Checks if the <paramref name="parameter"/> is null, and throws a(n) <typeparamref name="TException"/> if it is.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TException"></typeparam>
-    /// <param name="parameter"></param>
-    /// <param name="exception"></param>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <typeparam name="T">The type we're attempting to protect</typeparam>
+    /// <typeparam name="TException">The type of exception we aim to throw<</typeparam>
+    /// <param name="parameter">The supplied entity</param>
+    /// <param name="exception">The suppleid custom exception we're throwing</param>
+    /// <exception cref="ArgumentNullException">Thrown when the provided <typeparamref name="TException"/> <paramref name="exception"/> is null</exception>
     public static void FromNull<T, TException>(T? parameter, TException exception)
     where TException : Exception, new()
     {
