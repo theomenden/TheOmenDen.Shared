@@ -42,8 +42,14 @@ public abstract record EnumerationBase<TEnumKey, TEnumValue> :
     }
     #endregion
     #region Properties
+    /// <summary>
+    /// The Key/Name for the Enumeration
+    /// </summary>
     public String Name { get; }
 
+    /// <summary>
+    /// The underlying value for the Enumeration
+    /// </summary>
     public TEnumValue Value { get; }
     #endregion
     #region Private Static Members
@@ -63,7 +69,7 @@ public abstract record EnumerationBase<TEnumKey, TEnumValue> :
 
             foreach (var item in Enumerations.Value)
             {
-                if (enumDictionary.ContainsKey(item.Value))
+                if (!enumDictionary.ContainsKey(item.Value))
                 {
                     enumDictionary.Add(item.Value, item);
                 }
@@ -77,11 +83,11 @@ public abstract record EnumerationBase<TEnumKey, TEnumValue> :
         var baseEnum = typeof(TEnumKey);
 
         return Assembly.GetAssembly(baseEnum)
-            .GetTypes()
+            ?.GetTypes()
             .Where(type => baseEnum.IsAssignableFrom(type))
             .SelectMany(type => type.GetTypeFields<TEnumKey>())
             .OrderBy(type => type.Name)
-            .ToArray();
+            .ToArray() ?? Array.Empty<TEnumKey>();
     }
 
     private static TEnumKey GetByName(String name, Dictionary<String, TEnumKey> searchDictionary)
@@ -95,11 +101,21 @@ public abstract record EnumerationBase<TEnumKey, TEnumValue> :
     }
     #endregion
     #region Public Static Members
+    /// <summary>
+    /// A readonly collection of the Enumerations in the particular type
+    /// </summary>
     public static IReadOnlyCollection<TEnumKey> ReadOnlyEnumerationList
     => EnumValueFromNames.Value.Values
         .ToList()
         .AsReadOnly();
 
+    /// <summary>
+    /// Searches for the <paramref name="name"/> within the collection of <typeparamref name="TEnumKey"/>s
+    /// </summary>
+    /// <param name="name">The name to parse out</param>
+    /// <param name="ignoreCase"><see langword="true"/> to ignore case during search; <see langword="false"/> as default</param>
+    /// <returns><typeparamref name="TEnumKey"/> typed enumeration</returns>
+    /// <exception cref="ArgumentNullException">If the <paramref name="name"/> is null or empty</exception>
     public static TEnumKey Parse(String name, Boolean ignoreCase = false)
     {
         if (String.IsNullOrWhiteSpace(name))
@@ -113,13 +129,22 @@ public abstract record EnumerationBase<TEnumKey, TEnumValue> :
                 : EnumValueFromNames.Value);
     }
 
-    public static (Boolean result, TEnumKey enumeration) TryParse(String name, Boolean ignoreCase)
+    /// <summary>
+    /// Searches for the <paramref name="name"/> within the collection of <typeparamref name="TEnumKey"/>s - DOES NOT THROW
+    /// </summary>
+    /// <param name="name">The name to search under</param>
+    /// <param name="ignoreCase"><see langword="true"/> to ignore case during search; <see langword="false"/> as default</param>
+    /// <returns>
+    /// <para><see cref="ValueTuple{T1, T2}"/> of (<see cref="Boolean"/>, <typeparamref name="TEnumKey"/>)</para>
+    ///<para><c>Result</c> is <see langword="true"/> when parsing is successful; <see langword="false"/> otherwise</para>
+    /// </returns>
+    public static (Boolean result, TEnumKey enumeration) TryParse(String name, Boolean ignoreCase = false)
     {
-        var tkeyResult = default(TEnumKey);
+        TEnumKey tkeyResult;
 
         if (String.IsNullOrWhiteSpace(name))
         {
-            return new(false, tkeyResult);
+            return new(false, null);
         }
 
         if (ignoreCase)
@@ -134,52 +159,88 @@ public abstract record EnumerationBase<TEnumKey, TEnumValue> :
         return new(true, tkeyResult);
     }
 
-    public static TEnumKey ParseFromValue(TEnumValue enumeration)
+    /// <summary>
+    /// Attempts to parse out an existing, and matching <see cref="EnumerationBase{TEnumKey, TEnumValue}"/> from the supplied <typeparamref name="TEnumValue"/> <paramref name="value"/>
+    /// </summary>
+    /// <param name="value">The <typeparamref name="TEnumValue"/> we're trying to parse</param>
+    /// <returns>The <typeparamref name="TEnumKey"/></returns>
+    /// <exception cref="ArgumentNullException">If the provided <typeparamref name="TEnumValue"/> is null</exception>
+    /// <exception cref="KeyNotFoundException">If there is no match to the provided <paramref name="value"/></exception>
+    public static TEnumKey ParseFromValue(TEnumValue value)
     {
-        if (enumeration is null)
+        if (value is null)
         {
-            throw new ArgumentNullException(nameof(enumeration));
+            throw new ArgumentNullException(nameof(value));
         }
 
-        if (!EnumFromValue.Value.TryGetValue(enumeration, out var result))
+        if (!EnumFromValue.Value.TryGetValue(value, out var result))
         {
-            throw new KeyNotFoundException(nameof(enumeration));
+            throw new KeyNotFoundException(nameof(value));
         }
 
         return result;
     }
 
-    public static TEnumKey ParseFromValue(TEnumValue enumeration, TEnumKey defaultValue)
+    /// <summary>
+    /// Attempts to parse out an existing, and matching <see cref="EnumerationBase{TEnumKey, TEnumValue}"/> from the supplied <typeparamref name="TEnumValue"/> <paramref name="value"/>
+    /// </summary>
+    /// <param name="value">The <typeparamref name="TEnumValue"/> we're trying to parse</param>
+    /// <param name="defaultValue">The value we can fall back on in case the provided <paramref name="value"/> fails</param>
+    /// <returns>The <typeparamref name="TEnumKey"/></returns>
+    /// <exception cref="ArgumentNullException">If the provided <typeparamref name="TEnumValue"/> is null</exception>
+    public static TEnumKey ParseFromValueOrDefault(TEnumValue value, TEnumKey defaultValue)
     {
-        if (enumeration is null)
+        if (value is null)
         {
-            throw new ArgumentNullException(nameof(enumeration));
+            throw new ArgumentNullException(nameof(value));
         }
 
-        return !EnumFromValue.Value.TryGetValue(enumeration, out var result)
+        return !EnumFromValue.Value.TryGetValue(value, out var result)
             ? defaultValue
             : result;
     }
 
-    public static (Boolean result, TEnumKey value) TryParseFromValue(TEnumValue? enumeration, TEnumKey defaultValue)
+    /// <summary>
+    /// Searches for the <paramref name="enumValue"/> within the collection of <typeparamref name="TEnumKey"/>s - DOES NOT THROW
+    /// </summary>
+    /// <param name="enumValue">The name to search under</param>
+    /// <param name="defaultValue">Our fallback value in case parsing fails</param>
+    /// <returns>
+    /// <para><see cref="ValueTuple{T1, T2}"/> of (<see cref="Boolean"/>, <typeparamref name="TEnumKey"/>)</para>
+    ///<para><c>Result</c> is <see langword="true"/> when parsing is successful; <see langword="false"/> otherwise</para>
+    /// </returns>
+    public static (Boolean result, TEnumKey value) TryParseFromValue(TEnumValue? enumValue, TEnumKey defaultValue)
     {
-        if (enumeration is null)
+        if (enumValue is null)
         {
             return new(false, defaultValue);
         }
 
-        EnumFromValue.Value.TryGetValue(enumeration, out var result);
+        EnumFromValue.Value.TryGetValue(enumValue, out var result);
 
         return new(true, result);
     }
     #endregion
     #region Conditions and Consequences
+    /// <summary>
+    /// A set of "When...Then..." statements to be executed for pattern matching and control flow
+    /// </summary>
+    /// <param name="enumerationCondition">The supplied condition we want to evaluate against</param>
+    /// <returns>A <see cref="Consequence{TKey, TEnumeration}"/> for further "When...Then..." pattern chaining</returns>
     public Consequence<TEnumKey, TEnumValue> When(EnumerationBase<TEnumKey, TEnumValue> enumerationCondition) 
         =>new (Equals(enumerationCondition), false, this);
-
+    /// <summary>
+    /// A set of "When...Then..." statements to be executed for pattern matching and control flow
+    /// </summary>
+    /// <param name="genericEnumerationConditions">The supplied conditions we want to evaluate against</param>
+    /// <returns>A <see cref="Consequence{TKey, TEnumeration}"/> for further "When...Then..." pattern chaining</returns>
     public Consequence<TEnumKey, TEnumValue> When(IEnumerable<EnumerationBase<TEnumKey, TEnumValue>> genericEnumerationConditions)
     => new (genericEnumerationConditions.Contains(this), false, this);
-
+    /// <summary>
+    /// A set of "When...Then..." statements to be executed for pattern matching and control flow
+    /// </summary>
+    /// <param name="genericEnumerationConditions">The supplied conditions we want to evaluate against</param>
+    /// <returns>A <see cref="Consequence{TKey, TEnumeration}"/> for further "When...Then..." pattern chaining</returns>
     public Consequence<TEnumKey, TEnumValue> When(params EnumerationBase<TEnumKey, TEnumValue>[] genericEnumerationConditions)
         => new (genericEnumerationConditions.Contains(this), false, this);
     #endregion
@@ -227,7 +288,7 @@ public abstract record EnumerationBase<TEnumKey, TEnumValue> :
         => lhs.CompareTo(rhs) >= 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator TEnumValue(EnumerationBase<TEnumKey, TEnumValue> enumeration)
+    public static implicit operator TEnumValue(EnumerationBase<TEnumKey, TEnumValue>? enumeration)
         => enumeration is not null ?
             enumeration.Value
             : default;

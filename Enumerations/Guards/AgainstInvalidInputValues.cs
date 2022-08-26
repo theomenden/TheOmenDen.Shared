@@ -5,6 +5,12 @@ namespace TheOmenDen.Shared.Guards;
 
 public static partial class Guard
 {
+    /// <summary>
+    /// Protects entity creation from invalid inputs
+    /// </summary>
+    /// <typeparam name="T">The type of entity we're checking</typeparam>
+    /// <param name="parameter">The parameter we're checking</param>
+    /// <param name="parameterName">The name of the <paramref name="parameter"/></param>
     public static void FromInvalidInput<T>(T parameter, String parameterName)
     {
         var attribute = (AllowNegativeEnumerationKeysAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(AllowNegativeEnumerationKeysAttribute));
@@ -26,6 +32,13 @@ public static partial class Guard
         FromInvalidInput(parameter, argumentOutOfRangeException);
     }
 
+    /// <summary>
+    /// Protects entity creation from invalid inputs
+    /// </summary>
+    /// <typeparam name="T">The type of entity we're checking</typeparam>
+    /// <typeparam name="TException">The type of exception we aim to throw</typeparam>
+    /// <param name="parameter">The parameter we're checking</param>
+    /// <param name="message">The formatted message we want to return to the caller</param>
     public static void FromInvalidInput<T, TException>(T parameter, String message)
     where TException : Exception, new()
     {
@@ -39,6 +52,14 @@ public static partial class Guard
         FromInvalidInput(parameter, exception);
     }
 
+    /// <summary>
+    /// Protects entity creation from invalid inputs
+    /// </summary>
+    /// <typeparam name="T">The type of entity we're checking</typeparam>
+    /// <typeparam name="TException">The type of exception we aim to throw</typeparam>
+    /// <param name="parameter">The parameter we're checking</param>
+    /// <param name="exception">The exception we aim to throw</param>
+    /// <exception cref="ArgumentNullException">If the <paramref name="exception"/> is null</exception>
     public static void FromInvalidInput<T, TException>(T parameter, TException exception)
     where TException : Exception, new()
     {

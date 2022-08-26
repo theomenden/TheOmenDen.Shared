@@ -4,11 +4,22 @@ namespace TheOmenDen.Shared.Guards;
 
 public static partial class Guard
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="parameter"></param>
+    /// <param name="parameterName"></param>
     public static void FromNullOrEmpty(String parameter, String parameterName)
     {
         FromNullOrEmpty(parameter, parameterName, null);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="parameter"></param>
+    /// <param name="parameterName"></param>
+    /// <param name="message"></param>
     public static void FromNullOrEmpty(String parameter, String parameterName, String message)
     {
         if(String.IsNullOrWhiteSpace(parameterName))
@@ -26,6 +37,11 @@ public static partial class Guard
         FromNullOrEmpty(parameter, argumentException);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="parameter"></param>
     public static void FromNullOrEmpty<TException>(String parameter)
     where TException : Exception, new()
     {
@@ -34,6 +50,12 @@ public static partial class Guard
         FromNullOrEmpty<TException>(parameter, message);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="parameter"></param>
+    /// <param name="message"></param>
     public static void FromNullOrEmpty<TException>(String parameter, String message)
     where TException : Exception, new()
     {
@@ -47,6 +69,13 @@ public static partial class Guard
         FromNullOrEmpty(parameter, exception);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="parameter"></param>
+    /// <param name="exception"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public static void FromNullOrEmpty<TException>(String parameter, TException exception)
         where TException : Exception, new()
     {

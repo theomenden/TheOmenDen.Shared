@@ -4,12 +4,23 @@ namespace TheOmenDen.Shared.Guards;
 
 public static partial class Guard
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="predicate"></param>
     public static void FromCondition<TException>(Func<bool> predicate)
         where TException : Exception, new()
     {
         FromCondition<TException>(predicate, Messages.PreconditionTemplate);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="predicate"></param>
+    /// <param name="message"></param>
     public static void FromCondition<TException>(Func<bool> predicate, String message)
         where TException : Exception, new()
     {
@@ -23,6 +34,13 @@ public static partial class Guard
         FromCondition(predicate, exception);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="predicate"></param>
+    /// <param name="exception"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public static void FromCondition<TException>(Func<bool> predicate, TException exception)
         where TException : Exception, new()
     {
@@ -42,6 +60,12 @@ public static partial class Guard
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="message"></param>
+    /// <returns></returns>
     private static TException CreateException<TException>(String message = null)
         where TException : Exception, new()
     {

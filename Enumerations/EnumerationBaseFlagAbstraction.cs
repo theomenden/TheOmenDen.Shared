@@ -5,18 +5,20 @@ using TheOmenDen.Shared.Guards;
 
 namespace TheOmenDen.Shared.Enumerations;
 /// <summary>
-/// 
+/// Defines a way to retrieve and work with Flagged based enumerations within powers of 2.
 /// </summary>
-/// <typeparam name="TEnumKey"></typeparam>
-/// <typeparam name="TEnumValue"></typeparam>
+/// <typeparam name="TEnumKey">The type of key</typeparam>
+/// <typeparam name="TEnumValue">The underlying value</typeparam>
 public abstract record EnumerationBaseFlagAbstraction<TEnumKey, TEnumValue>
 where TEnumKey : EnumerationBaseFlag<TEnumKey, TEnumValue>
 where TEnumValue : IEquatable<TEnumValue>, IComparable<TEnumValue>
 {
+    #region Constructors
     protected EnumerationBaseFlagAbstraction()
     {
     }
-
+    #endregion
+    #region Protected Static Methods
     /// <summary>
     /// Constructs an <see cref="IEnumerable{T}"/> that can allow for multiple flagged values.
     /// </summary>
@@ -63,10 +65,10 @@ where TEnumValue : IEquatable<TEnumValue>, IComparable<TEnumValue>
 
         return inputValue > maximumKeyValueAllowed ? Enumerable.Empty<TEnumKey>() : CreateKeysList(enumerationFlagStates);
     }
-
+    #endregion
+    #region Private Static Methods
     private static Int32 CalculateHighestAllowedFlag(IReadOnlyList<TEnumKey> inputList)
     => GetHighestFlagValue(inputList) * 2 - 1;
-
 
     private static void CheckEnumerationForValuesLessThanNegativeOne(Int32 value)
     {
@@ -150,12 +152,12 @@ where TEnumValue : IEquatable<TEnumValue>, IComparable<TEnumValue>
     }
 
     private static Boolean IsAPowerOfTwo(Int32 numberToCheck)
-        =>  numberToCheck != 0
+        => numberToCheck != 0
         && (numberToCheck & (numberToCheck - 1)) == 0;
 
     private static Int32 GetHighestFlagValue(IReadOnlyList<TEnumKey> keyList)
     {
-        var greatestIndex =  keyList.Count - 1;
+        var greatestIndex = keyList.Count - 1;
         var greatestValue = Int32.Parse(keyList[^1].Value.ToString() ?? string.Empty);
 
         if (IsAPowerOfTwo(greatestValue))
@@ -194,4 +196,5 @@ where TEnumValue : IEquatable<TEnumValue>, IComparable<TEnumValue>
 
         return maxValue;
     }
+    #endregion
 }

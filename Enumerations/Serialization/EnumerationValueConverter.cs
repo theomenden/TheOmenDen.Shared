@@ -1,7 +1,13 @@
 ﻿using System.Text.Json;
+using TheOmenDen.Shared.Exceptions.Templates;
 
 namespace TheOmenDen.Shared.Enumerations.Serialization;
 
+/// <summary>
+/// <inheritdoc cref="JsonConverter{T}"/>
+/// </summary>
+/// <typeparam name="TKey">The key for the provided <see cref="EnumerationBase{TEnumKey, TEnumValue}"/></typeparam>
+/// <typeparam name="TValue">The Value to serialize for the provided <see cref="EnumerationBase{TEnumKey, TEnumValue}"/></typeparam>
 public class EnumerationValueConverter<TKey, TValue> : JsonConverter<TKey>
     where TKey : EnumerationBase<TKey, TValue>
     where TValue : IEquatable<TValue>, IComparable<TValue>, IConvertible
@@ -44,18 +50,18 @@ public class EnumerationValueConverter<TKey, TValue> : JsonConverter<TKey>
 
     private static TKey? GetFromValue(TValue value)
     {
-        try
-        {
-            return EnumerationBase<TKey, TValue>.ParseFromValue(value);
-        }
-        catch (Exception ex)
-        {
-            const string message = @"Could not convert {0} {1}: {2} to {3}";
+        var (result, enumerationBase) = EnumerationBase<TKey, TValue>.TryParseFromValue(value, default);
 
-            throw new JsonException(String.Format(message, typeof(TValue).Name, nameof(value), value.ToString(), typeof(TKey).Name), ex);
+        if (result)
+        {
+            return enumerationBase;
         }
+
+        var message = String.Format(Messages.CouldNotConvert, typeof(TValue).Name, nameof(value), value.ToString(),
+            typeof(TKey).Name);
+
+        throw new JsonException(message);
     }
-
 
     private static readonly Dictionary<TypeCode, Action<TKey, Utf8JsonWriter>> _writerTypeCodeActions = new()
     {

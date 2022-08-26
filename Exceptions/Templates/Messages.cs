@@ -32,5 +32,15 @@ internal static class Messages
     /// </summary>
     /// <value>The Enumeration [EnumType] has values that are not consistent powers of 2(two)</value>
     public const string EnumerationNotConsecutivePowerOfTwo = @"The Enumeration [{0}] has values that are not consistent powers of 2(two); current value: {1}";
+    /// <summary>
+    /// Used for when an Enumeration could not be parsed out within System.Text.Json
+    /// </summary>
+    /// <value>Could not convert provided Type: TypeName to TargetType </value>
+    public const string CouldNotConvertProvidedType = @"Could not convert provided {0}: '{1}' to '{2}'";
+    /// <summary>
+    /// Used for when an Enumeration could not be converted with System.Text.Json due to a bad <see cref="TypeCode"/>
+    /// </summary>
+    /// <value>Could not convert Type parameterName: parameterValue to TargetType</value>
+    public const string CouldNotConvert = @"Could not convert {0} {1}: {2} to {3}";
 }
 

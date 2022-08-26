@@ -4,11 +4,24 @@ namespace TheOmenDen.Shared.Guards;
 
 public static partial class Guard
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="collectionToCheck"></param>
+    /// <param name="parameterName"></param>
     public static void FromEmptyCollection<T>(IEnumerable<T> collectionToCheck, String parameterName)
     {
         FromEmptyCollection(collectionToCheck, parameterName, null);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="collectionToCheck"></param>
+    /// <param name="parameterName"></param>
+    /// <param name="message"></param>
     public static void FromEmptyCollection<T>(IEnumerable<T> collectionToCheck, String parameterName, String message)
     {
         if(String.IsNullOrWhiteSpace(parameterName))
@@ -26,6 +39,12 @@ public static partial class Guard
         FromEmptyCollection(collectionToCheck, argumentException);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="collectionToCheck"></param>
     public static void FromEmptyCollection<T, TException>(IEnumerable<T> collectionToCheck)
         where TException : Exception, new()
     {
@@ -34,6 +53,13 @@ public static partial class Guard
         FromEmptyCollection<T, TException>(collectionToCheck, message);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="collectionToCheck"></param>
+    /// <param name="message"></param>
     public static void FromEmptyCollection<T, TException>(IEnumerable<T> collectionToCheck, String message)
     where TException : Exception, new()
     {
@@ -47,6 +73,14 @@ public static partial class Guard
         FromEmptyCollection(collectionToCheck, exception);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="collectionToCheck"></param>
+    /// <param name="exception"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public static void FromEmptyCollection<T, TException>(IEnumerable<T> collectionToCheck, TException exception)
         where TException: Exception, new()
     {

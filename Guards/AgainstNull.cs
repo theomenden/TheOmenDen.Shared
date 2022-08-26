@@ -4,11 +4,24 @@ namespace TheOmenDen.Shared.Guards;
 
 public static partial class Guard
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="parameter"></param>
+    /// <param name="parameterName"></param>
     public static void FromNull<T>(T? parameter, String parameterName)
     {
         FromNull(parameter, parameterName, null);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="parameter"></param>
+    /// <param name="parameterName"></param>
+    /// <param name="message"></param>
     public static void FromNull<T>(T parameter, String parameterName, String message)
     {
         if (String.IsNullOrWhiteSpace(parameterName))
@@ -26,6 +39,12 @@ public static partial class Guard
         FromNull(parameter, argumentNullException);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="parameter"></param>
     public static void FromNull<T, TException>(T parameter)
     where TException : Exception, new()
     {
@@ -34,6 +53,13 @@ public static partial class Guard
         FromNull<T, TException>(parameter, message);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="parameter"></param>
+    /// <param name="message"></param>
     public static void FromNull<T, TException>(T parameter, String message)
     where TException : Exception, new()
     {
@@ -47,6 +73,14 @@ public static partial class Guard
         FromNull(parameter, exception);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TException"></typeparam>
+    /// <param name="parameter"></param>
+    /// <param name="exception"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public static void FromNull<T, TException>(T? parameter, TException exception)
     where TException : Exception, new()
     {
