@@ -12,7 +12,7 @@ public sealed class GuardException : Exception
     {
     }
 
-    public GuardException(SerializationInfo info, StreamingContext context) : base(info, context)
+    private GuardException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 
