@@ -9,7 +9,8 @@
 	
 	<PropertyGroup>
 		<Date>$([System.DateTime]::Now.ToString("yyy.M.d.HHmm"))</Date>
-		<AssemblyFileVersionAttribute>[assembly:System.Reflection.AssemblyFileVersion("$(Date)")]</AssemblyFileVersionAttribute>
+		<AssemblyFileVersionAttribute>[assembly:System.Reflection.AssemblyFileVersion("$(Date)\r\n")]</AssemblyFileVersionAttribute>
+		<AssemblyVersionAttribute>[assembly:System.Reflection.AssemblyVersion("$(Date)\r\n")]</AssemblyVersionAttribute>
 		<ApplicationIcon>600.ico</ApplicationIcon>
 	</PropertyGroup>
 	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">
@@ -18,7 +19,8 @@
 	</Target>	
 	<PropertyGroup>
 		<Date>$([System.DateTime]::Now.ToString("yyy.M.d.HHmm"))</Date>
-		<AssemblyFileVersionAttribute>[assembly:System.Reflection.AssemblyFileVersion("$(Date)")]</AssemblyFileVersionAttribute>
+		<AssemblyFileVersionAttribute>[assembly:System.Reflection.AssemblyFileVersion("$(Date)")]$([System.Environment]::NewLine)</AssemblyFileVersionAttribute>
+		<AssemblyVersionAttribute>[assembly:System.Reflection.AssemblyVersion("$(Date)")]$([System.Environment]::NewLine)</AssemblyVersionAttribute>
 		<ApplicationIcon>Assets\600.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Description>A collection of core classes, services, interfaces, and other software development concepts that are used throughout The Omen Den's applications</Description>
@@ -39,7 +41,7 @@
 		<PackageIcon>Assets\omen-den-wave.png</PackageIcon>
 	</PropertyGroup>
 	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">
-		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)" Overwrite="true">
+		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)$(AssemblyVersionAttribute)" Overwrite="true">
 		</WriteLinesToFile>
 	</Target>
 	<ItemGroup>

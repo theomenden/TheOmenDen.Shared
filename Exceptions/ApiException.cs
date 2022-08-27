@@ -1,16 +1,23 @@
-﻿namespace TheOmenDen.Shared.Exceptions;
+﻿using System.Runtime.Serialization;
+
+namespace TheOmenDen.Shared.Exceptions;
 #nullable enable
 /// <summary>
 /// Provides a way to describe issues involving APIs, both external and internal 
 /// <inheritdoc cref="Exception"/>
 /// </summary>
-public class ApiException : Exception
+[Serializable]
+public sealed class ApiException : Exception
 {
     public ApiException(string message)
         : base(message) { }
 
     public ApiException(string message, Exception innerException)
         : base(message, innerException) { }
+
+    private ApiException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
 
     public ApiException(string message, ExceptionGravity? exceptionGravity, int statusCode = 500)
         : base(message)
