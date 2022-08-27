@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using TheOmenDen.Shared.Exceptions.Templates;
+﻿using TheOmenDen.Shared.Exceptions.Templates;
 
 namespace TheOmenDen.Shared.Enumerations.Serialization;
 

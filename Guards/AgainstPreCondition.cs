@@ -11,10 +11,8 @@ public static partial class Guard
     /// <param name="predicate">The condition to be executed</param>
     public static void FromCondition<TException>(Func<bool> predicate)
         where TException : Exception, new()
-    {
-        FromCondition<TException>(predicate, Messages.PreconditionTemplate);
-    }
-
+    => FromCondition<TException>(predicate, Messages.PreconditionTemplate);
+    
     /// <summary>
     /// Evaluates the supplied <paramref name="predicate"/> to guard against
     /// </summary>
@@ -24,7 +22,7 @@ public static partial class Guard
     public static void FromCondition<TException>(Func<bool> predicate, String message)
         where TException : Exception, new()
     {
-        if(String.IsNullOrWhiteSpace(message))
+        if (String.IsNullOrWhiteSpace(message))
         {
             message = Messages.PreconditionTemplate;
         }
@@ -44,17 +42,17 @@ public static partial class Guard
     public static void FromCondition<TException>(Func<bool> predicate, TException exception)
         where TException : Exception, new()
     {
-        if(predicate is null)
+        if (predicate is null)
         {
             throw new ArgumentNullException(nameof(predicate));
         }
 
-        if(exception is null)
+        if (exception is null)
         {
             throw new ArgumentNullException(nameof(exception));
         }
 
-        if(predicate.Invoke())
+        if (predicate.Invoke())
         {
             throw exception;
         }
@@ -69,14 +67,14 @@ public static partial class Guard
     private static TException CreateException<TException>(String message = null)
         where TException : Exception, new()
     {
-        if(String.IsNullOrWhiteSpace(message))
+        if (String.IsNullOrWhiteSpace(message))
         {
             return new TException();
         }
 
         try
         {
-            return (TException)Activator.CreateInstance(typeof(TException),message);
+            return (TException)Activator.CreateInstance(typeof(TException), message);
         }
         catch (MissingMethodException)
         {

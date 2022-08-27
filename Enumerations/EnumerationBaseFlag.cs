@@ -121,7 +121,7 @@ public abstract record EnumerationBaseFlag<TEnumKey, TEnumValue> :
         throw new ArgumentNullException(message);
     }
 
-    public static (Boolean result, TEnumKey enumeration) TryParse(String name, Boolean ignoreCase)
+    public static (Boolean result, TEnumKey enumeration) TryParse(String name, Boolean ignoreCase= false)
     {
         TEnumKey keyResult;
 

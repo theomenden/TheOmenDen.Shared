@@ -10,7 +10,8 @@ public static partial class Guard
     /// <typeparam name="T">The type we're protecting</typeparam>
     /// <param name="collectionToCheck">The provided collection</param>
     /// <param name="parameterName">The name of the collection</param>
-    public static void FromEmptyCollection<T>(IEnumerable<T> collectionToCheck, String parameterName) => FromEmptyCollection(collectionToCheck, parameterName, null);
+    public static void FromEmptyCollection<T>(IEnumerable<T> collectionToCheck, String parameterName) 
+        => FromEmptyCollection(collectionToCheck, parameterName, null);
 
     /// <summary>
     /// Evaluates if the <paramref name="collectionToCheck"/> contains any members, throws an exception with the provided <paramref name="message"/> if not.

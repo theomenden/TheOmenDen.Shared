@@ -12,9 +12,8 @@ public static partial class Guard
     /// <param name="value">The value we want to test equality with</param>
     public static void FromInequality<T, TException>(T parameter, T value)
         where TException : Exception, new()
-    {
-        FromInequality<T, TException>(parameter, value, Messages.NotEqualToTemplate);
-    }
+    => FromInequality<T, TException>(parameter, value, Messages.NotEqualToTemplate);
+    
 
     /// <summary>
     /// Checks if the provided <paramref name="parameter"/> satisfies an equality condition against the provided <paramref name="value"/>

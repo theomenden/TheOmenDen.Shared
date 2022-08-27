@@ -11,10 +11,8 @@ public static partial class Guard
     /// <param name="parameter">The supplied entity</param>
     /// <param name="parameterName">The name of the supplied entity</param>
     public static void FromNull<T>(T? parameter, String parameterName)
-    {
-        FromNull(parameter, parameterName, null);
-    }
-
+    => FromNull(parameter, parameterName, null);
+    
     /// <summary>
     /// Checks if the <paramref name="parameter"/> is null, and throws an exception if it is.
     /// </summary>

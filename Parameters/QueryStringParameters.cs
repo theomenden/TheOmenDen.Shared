@@ -5,7 +5,7 @@
 /// <paramref name="IsHistoricalQuery" /> tells us if we are dealing with system version-ed data
 /// </summary>
 /// <param name="IsHistoricalQuery"><see cref="Boolean"/> to notify if the caller wants to query the underlying history table</param>
-public abstract record QueryStringParameters(Boolean IsHistoricalQuery = false)
+public abstract record QueryStringParameters(Boolean IsHistoricalQuery = false): IQueryParameters
 {
     /// <summary>
     /// Unique Id for logging purposes

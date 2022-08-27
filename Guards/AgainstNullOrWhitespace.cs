@@ -10,9 +10,7 @@ public static partial class Guard
     /// <param name="parameter">The string we're aiming to protect</param>
     /// <param name="parameterName">The name of the <paramref name="parameterName"/></param>
     public static void FromNullOrWhitespace(String parameter, String parameterName)
-    {
-        FromNullOrWhitespace(parameter, parameterName, null);
-    }
+    => FromNullOrWhitespace(parameter, parameterName, null);
 
     /// <summary>
     /// Protects the provided <paramref name="parameter"/> from being <see langword="null"/>, <see cref="String.Empty"/>, or whitespace
@@ -84,6 +82,6 @@ public static partial class Guard
             throw new ArgumentNullException(nameof(exception));
         }
 
-        Guard.FromCondition(() => String.IsNullOrWhiteSpace(parameter), exception);
+        FromCondition(() => String.IsNullOrWhiteSpace(parameter), exception);
     }
 }

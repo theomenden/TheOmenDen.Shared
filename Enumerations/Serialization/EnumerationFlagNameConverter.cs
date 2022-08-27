@@ -4,12 +4,14 @@ namespace TheOmenDen.Shared.Enumerations.Serialization;
 /// <summary>
 /// <inheritdoc cref="JsonConverter{T}"/>
 /// </summary>
-/// <typeparam name="TKey">The key/name for the <see cref="EnumerationBase{TEnumKey, TEnumValue}"/></typeparam>
-/// <typeparam name="TValue">The value for the <see cref="EnumerationBase{TEnumKey, TEnumValue}"/></typeparam>
-public sealed class EnumerationNameConverter<TKey, TValue> : JsonConverter<TKey>
-    where TKey : EnumerationBase<TKey, TValue>
-    where TValue : IEquatable<TValue>, IComparable<TValue>, IConvertible
+/// <typeparam name="TKey">The key/name of the <see cref="EnumerationBaseFlag{TEnumKey, TEnumValue}"/></typeparam>
+/// <typeparam name="TValue">The value for the Enumeration</typeparam>
+public sealed class EnumerationFlagNameConverter<TKey, TValue> : JsonConverter<TKey>
+where TKey : EnumerationBaseFlag<TKey, TValue>
+where TValue : struct, IComparable<TValue>, IEquatable<TValue>
 {
+    public override bool HandleNull => true;
+
     public override TKey? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     => reader.TokenType == JsonTokenType.String
             ? GetKeyFromName(reader.GetString() ?? throw new JsonException($"Unexpected token {reader.TokenType} discovered when attempting to parse {typeof(TKey).Name}"))
@@ -26,9 +28,9 @@ public sealed class EnumerationNameConverter<TKey, TValue> : JsonConverter<TKey>
         writer.WriteStringValue(value.Name);
     }
 
-    private static TKey GetKeyFromName(String name)
+    private TKey GetKeyFromName(String name)
     {
-        var (result, enumeration) = EnumerationBase<TKey, TValue>.TryParse(name, false);
+        var (result, enumeration) = EnumerationBaseFlag<TKey, TValue>.TryParse(name);
 
         if (result)
         {
@@ -40,4 +42,3 @@ public sealed class EnumerationNameConverter<TKey, TValue> : JsonConverter<TKey>
         throw new JsonException(message);
     }
 }
-

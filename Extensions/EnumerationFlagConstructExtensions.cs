@@ -3,7 +3,7 @@ public static class EnumerationFlagConstructExtensions
 {
     public static Boolean IsEnumerationFlagConstruct<T>() => IsEnumerationFlagConstruct(typeof(T)).isConstruct;
 
-    public static (Boolean isConstruct, Type[] genericArguments) IsEnumerationFlagConstruct(this Type type)
+    public static (Boolean isConstruct, Type[] genericArguments) IsEnumerationFlagConstruct(this Type? type)
     {
         if (type is null || type.IsAbstract || type.IsGenericTypeDefinition)
         {
@@ -27,21 +27,19 @@ public static class EnumerationFlagConstructExtensions
         where TKey : EnumerationBaseFlag<TKey, TValue>
         where TValue : IEquatable<TValue>, IComparable<TValue>
     {
-        var enumerations = new List<TKey>(namedKeys.Count);
-
-        var namesList = names.Replace(" ", String.Empty)
+        var namesList = names.Replace(' ', '\0')
             .Trim()
             .Split(',');
 
         Array.Sort(namesList);
-        
-        enumerations.AddRange(from item in namedKeys.Values
-                              let result = Array.BinarySearch(namesList, item.Name)
-                              where result >= 0
-                              select item);
 
-        return !enumerations.Any() 
-            ? (false, Enumerable.Empty<TKey>()) 
-            : (true, enumerations);
+        var enumerations =  new List<TKey>(namedKeys.Values
+            .Select(item => new { item, result = Array.BinarySearch(namesList, item.Name) })
+            .Where(t => t.result >= 0)
+            .Select(t => t.item));
+
+        return enumerations.Any() 
+            ? (true, enumerations) 
+            : (false, Enumerable.Empty<TKey>());
     }
 }

@@ -70,7 +70,7 @@ public sealed class ThreadSafeBar : IDisposable, IProgress<Double>
                 return;
             }
 
-            var text = String.Empty;
+            String text;
 
             if (_showProgressbar)
             {

@@ -10,26 +10,6 @@ public sealed class BasicLoaders
     /// Creates a basic loading bar
     /// </summary>
     /// <param name="percent">The current whole number percentage</param>
-    /// <remarks>Changes the console foreground (Text) color to: <see cref="ConsoleColor.Magenta"/></remarks>
-    public static void LoadingBarIndicator(Int32 percent)
-    {
-        LoadingBarIndicator(percent, isUpdating: true);
-    }
-
-    /// <summary>
-    /// Creates a basic loading bar
-    /// </summary>
-    /// <param name="percent">The current whole number percentage</param>
-    /// <param name="loadingColor">The color for the console text</param>
-    public static void LoadingBarIndicator(Int32 percent, ConsoleColor loadingColor)
-    {
-        LoadingBarIndicator(percent, loadingColor, true);
-    }
-
-    /// <summary>
-    /// Creates a basic loading bar
-    /// </summary>
-    /// <param name="percent">The current whole number percentage</param>
     /// <param name="loadingColor">The color for the console text</param>
     /// <param name="isUpdating">Flag indicating if we're updating an existing bar</param>
     public static void LoadingBarIndicator(Int32 percent, ConsoleColor loadingColor = ConsoleColor.Magenta, Boolean isUpdating = false)
@@ -72,26 +52,6 @@ public sealed class BasicLoaders
     /// Creates a basic twirling progress indicator on the console
     /// </summary>
     /// <param name="progress">The whole number progress percentage</param>
-    /// <remarks>Changes the console foreground (Text) color to: <see cref="ConsoleColor.Magenta"/></remarks>
-    public static void TwirlingProgressIndicator(Int32 progress)
-    {
-        TwirlingProgressIndicator(progress, isUpdating: true);
-    }
-
-    /// <summary>
-    /// Creates a basic twirling progress indicator on the console
-    /// </summary>
-    /// <param name="progress">The whole number progress percentage</param>
-    /// <param name="loadingColor">The color for the console text</param>
-    public static void TwirlingProgressIndicator(Int32 progress, ConsoleColor loadingColor)
-    {
-        TwirlingProgressIndicator(progress, loadingColor, true);
-    }
-
-    /// <summary>
-    /// Creates a basic twirling progress indicator on the console
-    /// </summary>
-    /// <param name="progress">The whole number progress percentage</param>
     /// <param name="loadingColor">The color for the console text</param>
     /// <param name="isUpdating">Indicates if we're updating or creating the bar</param>
     public static void TwirlingProgressIndicator(Int32 progress, ConsoleColor loadingColor = ConsoleColor.Magenta, Boolean isUpdating = false)
@@ -115,26 +75,6 @@ public sealed class BasicLoaders
     }
     #endregion
     #region Ellipsis Indicator
-    /// <summary>
-    /// Creates a basic twirling progress indicator on the console
-    /// </summary>
-    /// <param name="progress">The whole number progress percentage</param>
-    /// <remarks>Changes the console foreground (Text) color to: <see cref="ConsoleColor.Magenta"/></remarks>
-    public static void EllipsisProgressIndicator(Int32 progress)
-    {
-        EllipsisProgressIndicator(progress, isUpdating: true);
-    }
-
-    /// <summary>
-    /// Creates a basic twirling progress indicator on the console
-    /// </summary>
-    /// <param name="progress">The whole number progress percentage</param>
-    /// <param name="loadingColor">The color for the console text</param>
-    public static void EllipsisProgressIndicator(Int32 progress, ConsoleColor loadingColor)
-    {
-        EllipsisProgressIndicator(progress, loadingColor, true);
-    }
-
     /// <summary>
     /// Creates a basic twirling progress indicator on the console
     /// </summary>

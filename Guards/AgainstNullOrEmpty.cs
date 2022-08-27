@@ -10,9 +10,7 @@ public static partial class Guard
     /// <param name="parameter">The supplied <see cref="string"/> we're protecting</param>
     /// <param name="parameterName">The <paramref name="parameter"/>'s name</param>
     public static void FromNullOrEmpty(String parameter, String parameterName)
-    {
-        FromNullOrEmpty(parameter, parameterName, null);
-    }
+        => FromNullOrEmpty(parameter, parameterName, null);
 
     /// <summary>
     /// Protects the supplied <paramref name="parameter"/> from being <see langword="null"/> or <see cref="String.Empty"/>
@@ -85,6 +83,6 @@ public static partial class Guard
             throw new ArgumentNullException(nameof(exception));
         }
 
-        Guard.FromCondition(() => String.IsNullOrEmpty(parameter), exception);
+        FromCondition(() => String.IsNullOrEmpty(parameter), exception);
     }
 }
