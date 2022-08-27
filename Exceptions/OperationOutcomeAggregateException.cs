@@ -4,6 +4,7 @@ namespace TheOmenDen.Shared.Exceptions;
 /// <summary>
 /// Contains relevant <see cref="OperationOutcome"/> aggregation over threads
 /// </summary>
+[Serializable]
 public sealed class OperationOutcomeAggregateException: AggregateException
 {
 

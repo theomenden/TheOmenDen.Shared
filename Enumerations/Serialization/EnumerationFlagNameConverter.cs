@@ -28,7 +28,7 @@ where TValue : struct, IComparable<TValue>, IEquatable<TValue>
         writer.WriteStringValue(value.Name);
     }
 
-    private TKey GetKeyFromName(String name)
+    private static TKey GetKeyFromName(String name)
     {
         var (result, enumeration) = EnumerationBaseFlag<TKey, TValue>.TryParse(name);
 

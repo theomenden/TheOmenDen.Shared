@@ -7,11 +7,13 @@
 /// </summary>
 public sealed class ThreadSafeBar : IDisposable, IProgress<Double>
 {
+    private static readonly object Locker = new ();
+
     private const Int32 BlockCount = 10;
 
     private readonly TimeSpan _animationInterval = TimeSpan.FromSeconds(1.0 / 8);
 
-    private Boolean _showProgressbar = true;
+    private readonly Boolean _showProgressbar;
 
     private readonly Timer _timer;
 
@@ -37,7 +39,7 @@ public sealed class ThreadSafeBar : IDisposable, IProgress<Double>
 
     public void Dispose()
     {
-        lock (_timer)
+        lock (Locker)
         {
             _disposed = true;
             UpdateText(String.Empty);
@@ -63,7 +65,7 @@ public sealed class ThreadSafeBar : IDisposable, IProgress<Double>
 
     private void TimerHandler(Object state)
     {
-        lock (_timer)
+        lock (Locker)
         {
             if (_disposed)
             {

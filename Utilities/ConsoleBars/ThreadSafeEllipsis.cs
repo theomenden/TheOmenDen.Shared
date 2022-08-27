@@ -5,8 +5,8 @@
 /// </summary>
 public sealed class ThreadSafeEllipsis : IDisposable, IProgress<Double>
 {
-    private const Int32 BlockCount = 10;
-
+    private static readonly object Locker = new();
+    
     private readonly TimeSpan _animationInterval = TimeSpan.FromSeconds(1d / 8d);
 
     private readonly Timer _timer;
@@ -31,7 +31,7 @@ public sealed class ThreadSafeEllipsis : IDisposable, IProgress<Double>
 
     public void Dispose()
     {
-        lock (_timer)
+        lock (Locker)
         {
             _disposed = true;
             UpdateText(String.Empty);
@@ -57,7 +57,7 @@ public sealed class ThreadSafeEllipsis : IDisposable, IProgress<Double>
 
     private void TimerHandler(Object state)
     {
-        lock (_timer)
+        lock (Locker)
         {
             if (_disposed)
             {

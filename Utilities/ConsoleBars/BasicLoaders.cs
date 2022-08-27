@@ -5,6 +5,12 @@
 /// </summary>
 public sealed class BasicLoaders
 {
+    private BasicLoaders()
+    {
+    }
+
+    public static BasicLoaders Instance { get; } = new();
+
     #region Loading Bar
     /// <summary>
     /// Creates a basic loading bar

@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
 namespace TheOmenDen.Shared.Exceptions;
-
+[Serializable]
 public sealed class GuardException : Exception
 {
     public GuardException()
