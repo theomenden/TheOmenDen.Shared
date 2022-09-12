@@ -28,7 +28,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2.210.0
+- task: VSTest@3.205.0
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
