@@ -36,11 +36,11 @@ public static class ArrayExtensions
             return Array.Empty<T>();
         }
 
-        var subarray = new T[length];
+        var destinationArray = new T[length];
 
-        Array.Copy(source, index, subarray, 0, length);
+        Array.Copy(source, index, destinationArray, 0, length);
 
-        return subarray;
+        return destinationArray;
     }
 
     /// <summary>
