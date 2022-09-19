@@ -55,6 +55,16 @@ public static class EnumerableExtensions
             return collection;
         }
 
+        if(source is IList<T> list)
+        {
+            return GetRandomElementsFromList<T>(list, totalElementsToReturn);
+        }
+
+        if(source is T[] array)
+        {
+            return GetRandomElementsFromArray<T>(array, totalElementsToReturn);
+        }
+
         var randomIndex = 0;
 
         var sourceAsArray = ArrayExtensions.CopyPooled(source.ToArray());
@@ -86,48 +96,89 @@ public static class EnumerableExtensions
 
     public static T[] GetRandomElementsFromArray<T>(this T[] source, Int32 totalElementsToReturn)
     {
-        var randomIndex = 0;
         var sourceSpan = source.AsSpan();
 
         var arrayToReturn = new T[totalElementsToReturn];
 
-        foreach (var item in sourceSpan)
+        for (int i = 0; i < sourceSpan.Length; i++)
         {
-            GenerateRandomIndex<T>(totalElementsToReturn, item, arrayToReturn, randomIndex);
-            randomIndex++;
+            var index = GenerateRandomElementIndex(totalElementsToReturn, i);
+
+            if (index != -1 && index < totalElementsToReturn)
+            {
+                arrayToReturn[index] = source[i];
+            }
         }
 
         return arrayToReturn;
     }
 
-    public static T[] GetRandomElementsFromList<T>(this List<T> source, Int32 totalElementsToReturn)
+    public static T[] GetRandomElementsFromList<T>(this IList<T> source, Int32 totalElementsToReturn)
     {
-        var randomIndex = 0;
-
-        var arrayToReturn = new T[totalElementsToReturn];
-
-        foreach (var item in source)
+        var returnList = new T[totalElementsToReturn];
+        
+        for(int i = 0; i < source.Count; i++)
         {
-            GenerateRandomIndex(totalElementsToReturn, item, arrayToReturn, randomIndex);
-            randomIndex++;
+            var index = GenerateRandomElementIndex(totalElementsToReturn, i);
+
+            if (index != -1 && index < totalElementsToReturn)
+            {
+                returnList[index] = source[i];
+            }
+
         }
 
-        return arrayToReturn;
+        return returnList;
     }
 
-    private static void GenerateRandomIndex<T>(int totalElementsToReturn, T item, T[] subArray, int randomIndex)
+    public static Index[] GetRandomElementIndiciesFromArray<T>(this T[] source, Int32 totalIndiciesToReturn)
     {
-        if (randomIndex < totalElementsToReturn)
+        var returnList = new Index[totalIndiciesToReturn];
+
+        for (int i = 0; i < source.Length; i++)
         {
-            subArray[randomIndex] = item;
-            return;
+            var index = GenerateRandomElementIndex(totalIndiciesToReturn, i);
+
+            if (index != -1 && index < totalIndiciesToReturn)
+            {
+                returnList[index] = new Index(i);
+            }
+        }
+
+        return returnList;
+    }
+
+    public static Index[] GetRandomElementIndiciesFromList<T>(this IList<T> source, Int32 totalIndiciesToReturn)
+    {
+        var returnList = new Index[totalIndiciesToReturn];
+
+        for (int i = 0; i < source.Count; i++)
+        {
+            var index = GenerateRandomElementIndex(totalIndiciesToReturn, i);
+
+            if (index != -1 && index < totalIndiciesToReturn)
+            {
+                returnList[index] = new Index(i);
+            }
+        }
+
+        return returnList;
+    }
+
+    private static Int32 GenerateRandomElementIndex(int totalValuesToReturn,  int randomIndex)
+    {
+        if (randomIndex < totalValuesToReturn)
+        {
+            return randomIndex;
         }
 
         var index = ThreadSafeRandom.Global.Next(randomIndex + 1);
 
-        if (index < totalElementsToReturn)
+        if (index < totalValuesToReturn)
         {
-            subArray[index] = item;
+            return index;
         }
+
+        return -1;
     }
 }
