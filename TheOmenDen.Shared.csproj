@@ -43,7 +43,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>dotnet;dotnetcore;dotnet6;csharp; c#; enumerations;guards;general purpose;theomenden</PackageTags>
 		<PackageReleaseNotes>Add guard classes, add enumeration record types</PackageReleaseNotes>
-		<IncludeSymbols>False</IncludeSymbols>
+		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">

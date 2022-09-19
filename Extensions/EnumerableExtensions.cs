@@ -1,20 +1,27 @@
-﻿using System;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices;
-using TheOmenDen.Shared.Guards;
-using TheOmenDen.Shared.Utilities;
+﻿using TheOmenDen.Shared.Utilities;
 
 namespace TheOmenDen.Shared.Extensions;
 
 public static class EnumerableExtensions
 {
+    /// <summary>
+    /// <paramref name="source"/>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"></param>
+    /// <returns>A random entry <typeparamref name="T"/></returns>
+    /// <exception cref="InvalidOperationException">If there's nothing in the <paramref name="source"/> collection</exception>
     public static T GetRandomElement<T>(this IEnumerable<T> source)
     {
-        using var random = ThreadSafeRandom.Global;
-
+        
         if (source is ICollection<T> { Count: > 0 } collection)
         {
-            return collection.ElementAt(random.Next(collection.Count));
+            return collection.ElementAt(ThreadSafeRandom.Global.Next(collection.Count));
+        }
+
+        if(source is T[] { Length: > 0} array)
+        {
+            return GetRandomElementFromArray(array);
         }
 
         var randomElement = default(T);
@@ -24,7 +31,7 @@ public static class EnumerableExtensions
         {
             indexCounter++;
 
-            if (random.Next(indexCounter) is 0)
+            if (ThreadSafeRandom.Global.Next(indexCounter) is 0)
             {
                 randomElement = element;
             }
@@ -38,6 +45,36 @@ public static class EnumerableExtensions
         return randomElement!;
     }
 
+    public static Index GetRandomIndex<T>(this IEnumerable<T> source)
+    {
+        var random = ThreadSafeRandom.Global.Next(source.Count() - 1);
+
+        return GenerateRandomElementIndex(1, random);
+    }
+
+    /// <summary>
+    /// Access a random element from the provided <paramref name="source"/>
+    /// </summary>
+    /// <typeparam name="T">The underlying type</typeparam>
+    /// <param name="source">The provided array</param>
+    /// <returns>A single <typeparamref name="T"/> from <paramref name="source"/></returns>
+    public static T GetRandomElementFromArray<T>(this T[] source)
+    {
+        var indexCounter = source.Length - 1;
+
+        var index = GenerateRandomElementIndex(1, ThreadSafeRandom.Global.Next(indexCounter));
+
+        return source[index];
+    }
+
+    /// <summary>
+    /// Retrieves a set of elements from the provided <paramref name="source"/> collection
+    /// </summary>
+    /// <typeparam name="T">The underlying type</typeparam>
+    /// <param name="source">The provided collection</param>
+    /// <param name="totalElementsToReturn">The number of random elements we want to recieve</param>
+    /// <returns><see cref="IEnumerable{T}"/>: <typeparamref name="T"/></returns>
+    /// <exception cref="ArgumentNullException">throw when the <paramref name="source"/> is null</exception>
     public static IEnumerable<T> GetRandomElements<T>(this IEnumerable<T> source, Int32 totalElementsToReturn)
     {
         if (source is null)
@@ -94,6 +131,13 @@ public static class EnumerableExtensions
         return subArray;
     }
 
+    /// <summary>
+    /// Array Optimized Random element retrieval from <paramref name="source"/> with the total <paramref name="totalElementsToReturn"/> being the number of random elements
+    /// </summary>
+    /// <typeparam name="T">The underlying type</typeparam>
+    /// <param name="source">The supplied array</param>
+    /// <param name="totalElementsToReturn">Number of random elements we wish to return</param>
+    /// <returns><see cref="Array"/>: <typeparamref name="T"/></returns>
     public static T[] GetRandomElementsFromArray<T>(this T[] source, Int32 totalElementsToReturn)
     {
         var sourceSpan = source.AsSpan();
@@ -113,6 +157,13 @@ public static class EnumerableExtensions
         return arrayToReturn;
     }
 
+    /// <summary>
+    /// <see cref="IList{T}"/> Optimized Random element retrieval from <paramref name="source"/> with the total <paramref name="totalElementsToReturn"/> being the number of random elements
+    /// </summary>
+    /// <typeparam name="T">The underlying type</typeparam>
+    /// <param name="source">The supplied list</param>
+    /// <param name="totalElementsToReturn">Number of random elements we wish to return</param>
+    /// <returns><see cref="Array{T}"/>: <typeparamref name="T"/></returns>
     public static T[] GetRandomElementsFromList<T>(this IList<T> source, Int32 totalElementsToReturn)
     {
         var returnList = new T[totalElementsToReturn];
@@ -131,6 +182,13 @@ public static class EnumerableExtensions
         return returnList;
     }
 
+    /// <summary>
+    /// Retrieves a random set of <see cref="Index"/> from the provided <paramref name="source"/>
+    /// </summary>
+    /// <typeparam name="T">The underlying type</typeparam>
+    /// <param name="source">The source collection</param>
+    /// <param name="totalIndiciesToReturn">The total elements we wish to return</param>
+    /// <returns><see cref="Array"/>:<see cref="Index"/></returns>
     public static Index[] GetRandomElementIndiciesFromArray<T>(this T[] source, Int32 totalIndiciesToReturn)
     {
         var returnList = new Index[totalIndiciesToReturn];
@@ -148,6 +206,13 @@ public static class EnumerableExtensions
         return returnList;
     }
 
+    /// <summary>
+    /// Retrieves a random set of <see cref="Index"/> from the provided <paramref name="source"/>
+    /// </summary>
+    /// <typeparam name="T">The underlying type</typeparam>
+    /// <param name="source">The source collection</param>
+    /// <param name="totalIndiciesToReturn">The total elements we wish to return</param>
+    /// <returns><see cref="Array"/>:<see cref="Index"/></returns>
     public static Index[] GetRandomElementIndiciesFromList<T>(this IList<T> source, Int32 totalIndiciesToReturn)
     {
         var returnList = new Index[totalIndiciesToReturn];

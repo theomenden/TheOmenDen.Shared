@@ -8,6 +8,7 @@
 /// <para><see href="https://stackoverflow.com/questions/3049467/is-c-sharp-random-number-generator-thread-safe">This StackOverflow for reference</see>
 ///  contains the original design by Alexey - as well as general justification for why this is implemented. Everything is sourced from them.
 /// </para>
+/// <inheritdoc cref="Random"/>
 /// <inheritdoc cref="IDisposable"/>
 /// <inheritdoc cref="IAsyncDisposable"/>
 /// </summary>
@@ -51,17 +52,17 @@ public sealed class ThreadSafeRandom : Random, IDisposable, IAsyncDisposable
     #endregion
     #region Static Properties
     /// <summary>
-    /// Gets global static instance.
+    /// A global instance of the randomized class. Should be thread safe as well, but if you initialize with a seeded value - you WILL effect all areas that reference this.
     /// </summary>
     public static ThreadSafeRandom Global { get; } = new();
 
     /// <summary>
-    /// Experimental workings with <see cref="Lazy{T}"/> - USE AT YOUR OWN RISK
+    /// Experimental workings with <see cref="Lazy{T}"/> - USE AT YOUR OWN RISK - follows the same rules as the <see cref="ThreadSafeRandom.Global"/>
     /// </summary>
     public static Lazy<ThreadSafeRandom> LazyRandom { get; } = new(() => Global);
 
     /// <summary>
-    /// Experimental workings with <see cref="AsyncLazyInitializer{T}"/> - USE AT YOUR OWN RISK
+    /// Experimental workings with <see cref="AsyncLazyInitializer{T}"/> - USE AT YOUR OWN RISK - follows the same rules as the <see cref="ThreadSafeRandom.Global"/>
     /// </summary>
     public static AsyncLazyInitializer<ThreadSafeRandom> AsyncLazyRandom { get; } = new(() => Global);
     #endregion
@@ -98,6 +99,7 @@ public sealed class ThreadSafeRandom : Random, IDisposable, IAsyncDisposable
     public override float NextSingle() => _threadLocalRandom.Value!.NextSingle();
     #endregion
     #region Destruction Implementations
+    /// <inheritdoc />
     public ValueTask DisposeAsync()
     {
         if (_isDisposed)
@@ -124,6 +126,7 @@ public sealed class ThreadSafeRandom : Random, IDisposable, IAsyncDisposable
         _isDisposed = true;
     }
 
+    /// <inheritdoc />
     public void Dispose()
     {
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
