@@ -27,7 +27,7 @@ public interface IEntityKey
     /// <value>
     /// A provided tenant that we can subscribe to
     /// </value>
-    public Tenant Tenant { get; }
+    public ITenant Tenant { get; }
 
     /// <summary>
     /// The originator/creator of the entity - The "Who" 
@@ -35,5 +35,5 @@ public interface IEntityKey
     /// <value>
     /// A record of the creator of this entity
     /// </value>
-    public User Creator { get; }
+    public IUser Creator { get; }
 }

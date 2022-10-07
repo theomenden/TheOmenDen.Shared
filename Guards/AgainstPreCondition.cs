@@ -69,7 +69,7 @@ public static partial class Guard
     {
         if (String.IsNullOrWhiteSpace(message))
         {
-            return new TException();
+            return new();
         }
 
         try

@@ -5,7 +5,7 @@
 /// </summary>
 public sealed record EntityKey : IEntityKey
 {
-    private EntityKey(Guid? id, DateTime? createdAt, Tenant tenant, User creator)
+    private EntityKey(Guid? id, DateTime? createdAt, ITenant tenant, IUser creator)
     {
         Id = id ?? Guid.NewGuid();
         CreatedAt = createdAt ?? DateTime.UtcNow;
@@ -22,28 +22,22 @@ public sealed record EntityKey : IEntityKey
     /// <param name="creator">The originator</param>
     /// <returns>The newly created key</returns>
     public static EntityKey Create(Guid id, DateTime createdAt, Tenant tenant, User creator)
-    {
-        return new EntityKey(id, createdAt, tenant, creator);
-    }
+    => new(id, createdAt, tenant, creator);
+
 
     public Guid Id { get; }
 
     public DateTime CreatedAt { get; }
 
-    public Tenant Tenant { get; }
+    public ITenant Tenant { get; }
 
-    public User Creator { get; }
+    public IUser Creator { get; }
 
-    public bool Equals(EntityKey other)
-    {
-        return other?.Id == Id
+    public bool Equals(EntityKey other) => 
+            other is not null
+            && other.Id == Id
             && other.Tenant == Tenant
             && other.Creator == Creator;
-    }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Id, CreatedAt, Tenant);
-    }
-
+    public override int GetHashCode() => HashCode.Combine(Id, CreatedAt, Tenant);
 }
