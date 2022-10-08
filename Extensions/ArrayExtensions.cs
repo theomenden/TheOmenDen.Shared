@@ -11,10 +11,7 @@ public static class ArrayExtensions
     /// <param name="source">The provided array</param>
     /// <param name="index">The provided index</param>
     /// <returns>An sliced array of <typeparamref name="T"/> entities</returns>
-    public static T[] SubArray<T>(this T[] source, Int32 index)
-    {
-        return SubArray(source, index, source.Length - index);
-    }
+    public static T[] SubArray<T>(this T[] source, Int32 index) => SubArray(source, index, source.Length - index);
 
     /// <summary>
     /// Creates a sliced array from the provided <paramref name="source"/> array, starting from the given <paramref name="index"/> to the provided <paramref name="length"/>
@@ -26,12 +23,12 @@ public static class ArrayExtensions
     /// <returns>The sliced array</returns>
     public static T[] SubArray<T>(this T[] source, Int32 index, Int32 length)
     {
-        if (index == 0 && length == source.Length)
+        if (index is 0 && length == source.Length)
         {
             return source;
         }
 
-        if (length == 0)
+        if (length is 0)
         {
             return Array.Empty<T>();
         }
@@ -55,7 +52,7 @@ public static class ArrayExtensions
     /// <returns>The combination of the arrays</returns>
     public static T[] Append<T>(this T[] source, T[] appendArray, Int32 index, Int32 length)
     {
-        if (length == 0)
+        if (length is 0)
         {
             return source;
         }
@@ -82,10 +79,7 @@ public static class ArrayExtensions
     /// <typeparam name="T">The underlying array type</typeparam>
     /// <param name="source">The supplied array</param>
     /// <returns>The copied array's new <see cref="ArrayPool{T}"/> reference</returns>
-    public static T[] CopyPooled<T>(this T[] source)
-    {
-        return SubArrayPooled(source, 0, source.Length);
-    }
+    public static T[] CopyPooled<T>(this T[] source) => SubArrayPooled(source, 0, source.Length);
 
     /// <summary>
     /// Creates a sliced array from the supplied <paramref name="source"/> array, into the <see cref="ArrayPool{T}"/>
@@ -110,7 +104,7 @@ public static class ArrayExtensions
     /// <typeparam name="T">The underlying type of the array</typeparam>
     /// <param name="source">The provided array to return</param>
     /// <remarks>See <see cref="ArrayPool{T}"/></remarks>
-    public static void ReturnArrayToPool<T>(this T[] source)
+    public static void ReturnArrayToPool<T>(this T[]? source)
     {
         if (source is null)
         {

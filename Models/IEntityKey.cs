@@ -37,3 +37,17 @@ public interface IEntityKey
     /// </value>
     public IUser Creator { get; }
 }
+
+/// <summary>
+/// Wrapper for <see cref="IEntityKey"/>, providing the ability to use a strongly typed composite key that implements <see cref="IComparable{T}"/>
+/// </summary>
+/// <typeparam name="TKey">The underlying composite key type - must implement <see cref="IComparable{T}"/></typeparam>
+public interface IEntityKey<out TKey> : IEntityKey
+where TKey : IComparable<TKey>
+{
+    /// <summary>
+    /// The composite value
+    /// </summary>
+    /// <value>A comparable key to work with</value>
+    TKey Composite { get; }
+}
