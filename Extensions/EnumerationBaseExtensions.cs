@@ -9,11 +9,11 @@ public static class EnumerationBaseExtensions
     public static Boolean IsEnumerationConstruct<T>() => IsEnumerationConstruct(typeof(T)).isConstruct;
 
     /// <summary>
-    /// Checks for the underlying type of the supplied <typeparamref name="T"/>
+    /// Checks for the underlying type of the supplied <paramref name="type"/>
     /// </summary>
     /// <param name="type">The type we're trying to examine</param>
-    /// <returns><see langword="true"/> if the provided <typeparamref name="T"/> is a type of <see cref="EnumerationBase{TEnumKey, TEnumValue}"/>; <see langword="false"/> otherwise</returns>
-    public static (Boolean isConstruct, Type[] genericArguments) IsEnumerationConstruct(this Type type)
+    /// <returns><see langword="true"/> if the provided <paramref name="type"/> is a type of <see cref="EnumerationBase{TEnumKey, TEnumValue}"/>; <see langword="false"/> otherwise</returns>
+    public static (Boolean isConstruct, Type[] genericArguments) IsEnumerationConstruct(this Type? type)
     {
         if (type is null || type.IsAbstract || type.IsGenericTypeDefinition)
         {

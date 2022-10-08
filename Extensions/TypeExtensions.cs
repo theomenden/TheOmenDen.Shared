@@ -55,6 +55,12 @@ public static class TypeExtensions
         return null;
     }
 
+    /// <summary>
+    /// Retrieves the underlying field properties of the provided <paramref name="type"/>
+    /// </summary>
+    /// <typeparam name="TField">The fields underlying type</typeparam>
+    /// <param name="type">The provided type we want to retrieve field from</param>
+    /// <returns>A collection of <typeparamref name="TField"/>s</returns>
     public static IEnumerable<TField> GetTypeFields<TField>(this Type type)
     => type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
            .Where(f => type.IsAssignableFrom(f.FieldType))

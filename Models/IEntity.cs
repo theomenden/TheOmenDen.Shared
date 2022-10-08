@@ -26,3 +26,16 @@ public interface IEntity<out T> : IEntity
     /// </value>
     T Data { get; }
 }
+
+/// <summary>
+/// Allows for the definition of a more complex entity that depends on a composite type of key
+/// </summary>
+/// <typeparam name="TKey">The underlying type for the key</typeparam>
+/// <typeparam name="TValue">The underlying type</typeparam>
+public interface IEntity<out TKey,out TValue>
+where TKey : IComparable<TKey>
+{
+    IEntityKey<TKey> Key { get; }
+
+    TValue Value { get; }
+}

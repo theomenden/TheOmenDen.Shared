@@ -10,6 +10,6 @@ public sealed class InvalidRequestPayload
     /// <value>
     /// A keyed collection of the validation failures on the model
     /// </value>
-    public IDictionary<String, IEnumerable<String>> Errors { get; set; }
+    public IDictionary<String, IEnumerable<String>> Errors { get; set; } = new Dictionary<String, IEnumerable<String>>();
 }
 

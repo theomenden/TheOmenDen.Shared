@@ -11,7 +11,8 @@ public class ApiResponse
     /// <value>
     /// <see cref="OperationOutcome"/>
     /// </value>
-    public OperationOutcome Outcome { get; set; }
+    /// <remarks>Defaults to a <see cref="OperationOutcome.SuccessfulOutcome"/> because we want to be optimistic 😉</remarks>
+    public OperationOutcome Outcome { get; set; } = OperationOutcome.SuccessfulOutcome;
 
     /// <summary>
     /// Status code belonging to a particular response

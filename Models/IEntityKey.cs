@@ -1,18 +1,10 @@
 ﻿namespace TheOmenDen.Shared.Models;
 
 /// <summary>
-/// A set of constraints for a given Entity
+/// Contains information relevant to the user and tenant that created the entity
 /// </summary>
-public interface IEntityKey
+public interface IEntityUserInformation
 {
-    /// <summary>
-    /// The entity's unique Id
-    /// </summary>
-    /// <value>
-    /// A unique Id
-    /// </value>
-    Guid Id { get; }
-
     /// <summary>
     /// The originating date of the entity
     /// </summary>
@@ -39,15 +31,29 @@ public interface IEntityKey
 }
 
 /// <summary>
-/// Wrapper for <see cref="IEntityKey"/>, providing the ability to use a strongly typed composite key that implements <see cref="IComparable{T}"/>
+/// A set of constraints for a given Entity
+/// </summary>
+public interface IEntityKey: IEntityUserInformation
+{
+    /// <summary>
+    /// The entity's unique Id
+    /// </summary>
+    /// <value>
+    /// A unique Id
+    /// </value>
+    Guid Id { get; }
+}
+
+/// <summary>
+/// Provides the ability to use a strongly typed composite key that implements <see cref="IComparable{T}"/>
 /// </summary>
 /// <typeparam name="TKey">The underlying composite key type - must implement <see cref="IComparable{T}"/></typeparam>
-public interface IEntityKey<out TKey> : IEntityKey
+public interface IEntityKey<out TKey>: IEntityUserInformation
 where TKey : IComparable<TKey>
 {
     /// <summary>
-    /// The composite value
+    /// The entity's unique Id
     /// </summary>
     /// <value>A comparable key to work with</value>
-    TKey Composite { get; }
+    TKey Id { get; }
 }

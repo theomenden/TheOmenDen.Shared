@@ -11,7 +11,7 @@ public class ClientErrorPayload
     /// <value>
     /// Typically provided from an exception, or known error
     /// </value>
-    public string Message { get; set; }
+    public string Message { get; set; } = String.Empty;
 
     /// <summary>
     /// The error is not a validation error1
@@ -35,7 +35,7 @@ public class ClientErrorPayload
     /// <value>
     /// Typically populated by a StackTrace, or some sort of caller traversal 
     /// </value>
-    public String Detail { get; set; }
+    public String Detail { get; set; } = String.Empty;
 }
 
 /// <summary>
