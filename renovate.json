@@ -2,8 +2,8 @@
   "packageRules": [
     {
       "matchUpdateTypes": [ "minor", "patch", "pin", "digest" ],
-      "autoMerge": true,
-      "autoMergeStrategy": "squash"
+      "automerge": true,
+      "automergeStrategy": "squash"
     }
   ],
   "rangeStrategy": "auto",
