@@ -1,9 +1,29 @@
-﻿using TheOmenDen.Shared.Utilities;
+﻿using System.Collections;
+using TheOmenDen.Shared.Utilities;
 
 namespace TheOmenDen.Shared.Extensions;
 
 public static class EnumerableExtensions
 {
+
+    public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+    {
+        switch (source)
+        {
+            case T[] array: Array.ForEach(array, action); break;
+            case ICollection<T> collection: collection.ForEach(action); break;
+            default:
+                foreach (var item in source)
+                {
+                    action(item);
+                }
+                break;
+        }
+
+    }
+
+
+
     /// <summary>
     /// Retrieves a random value from the provided <paramref name="source"/> collection
     /// </summary>

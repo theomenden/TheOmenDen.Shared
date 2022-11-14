@@ -1,22 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	  <Deterministic>false</Deterministic>
-  </PropertyGroup>
-
-	
 	<PropertyGroup>
-		<Date>$([System.DateTime]::Now.ToString("yyy.M.d.HHmm"))</Date>
-		<AssemblyFileVersionAttribute>[assembly:System.Reflection.AssemblyFileVersion("$(Date)\r\n")]</AssemblyFileVersionAttribute>
-		<AssemblyVersionAttribute>[assembly:System.Reflection.AssemblyVersion("$(Date)\r\n")]</AssemblyVersionAttribute>
-		<ApplicationIcon>600.ico</ApplicationIcon>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Deterministic>false</Deterministic>
 	</PropertyGroup>
-	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">
-		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)" Overwrite="true">
-		</WriteLinesToFile>
-	</Target>	
+
 	<PropertyGroup>
 		<Date>$([System.DateTime]::Now.ToString("yyy.M.d.HHmm"))</Date>
 		<AssemblyFileVersionAttribute>[assembly:System.Reflection.AssemblyFileVersion("$(Date)")]$([System.Environment]::NewLine)</AssemblyFileVersionAttribute>
@@ -38,37 +27,29 @@
 		<Product>The Omen Den Shared</Product>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 		<Nullable>annotations</Nullable>
-		<PackageIcon>Assets\omen-den-wave.png</PackageIcon>
+		<PackageIcon>omen-den-wave.png</PackageIcon>
 		<Title>The Omen Den's Shared Library</Title>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>dotnet;dotnetcore;dotnet6;csharp; c#; enumerations;guards;general purpose;theomenden</PackageTags>
+		<PackageTags>dotnet;dotnetcore;dotnet7;dotnet6;csharp; c#; enumerations;guards;general purpose;theomenden</PackageTags>
 		<PackageReleaseNotes>Add guard classes, add enumeration record types</PackageReleaseNotes>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 	<Target Name="GenerateVersionInfo" BeforeTargets="BeforeBuild">
-		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)$(AssemblyVersionAttribute)" Overwrite="true">
+		<WriteLinesToFile File="Properties\VersionInfo.cs" Lines="$(AssemblyFileVersionAttribute)$([System.Environment]::NewLine)$(AssemblyVersionAttribute)" Overwrite="true">
 		</WriteLinesToFile>
 	</Target>
 	<ItemGroup>
-	  <Content Include="600.ico" />
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
 	</ItemGroup>
+
 	<ItemGroup>
-	  <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+		<None Include="Assets\omen-den-wave.png" Pack="true" PackagePath="\"/>
+		<None Include="README.md" Pack="true" PackagePath="\">
+		</None>
 	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="Assets\omen-den-wave.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Delegates\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Delegates\" />
+	</ItemGroup>
 </Project>
