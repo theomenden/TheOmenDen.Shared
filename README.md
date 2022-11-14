@@ -100,6 +100,30 @@
 |      GetMediumAmountOfRandomElementsBenchmark |    24,046.92 ns |    197.307 ns |    174.908 ns |      - |      96 B |
 |       GetLargeAmountOfRandomElementsBenchmark | 2,854,750.20 ns | 27,621.984 ns | 24,486.170 ns |      - |      98 B |
 
+## Model Contracts
+- `IUser`
+  - A simple interface to mark the definition of a `user`.
+    - `Id` - a GUID/UUID that allows for easy storage and retrieval of user information.
+    - `Email` - an individual's email address.
+    - `Name` - the name of the user.
+    - `IsAuthenticated` - indicates whether the user is authenticated.
+    - `Key` - the key associated with the user (integer based).
+- `ITenant`
+  - A representation of the container for organization/business items, logic, and information.
+    - `Id` - a GUID/UUID that allows for easy storage and retrieval of tenant information.
+    - `Code` - The code associated with the tenant.
+    - `Name` - the name of the tenant.
+    - `Key` - the key associated with the tenant (integer based).
+- `IEntityKey`
+  - Provides a generic interpretation to help distinguish entities from each other.
+    - `Id` - a GUID/UUID that allows for easy storage and retrieval.
+    - `CreatedAt` - a timestamp marking the entity's creation.
+    - `ITenant` - The Tenant that entity is associated with.
+    - `IUser` - the originator/creator of the entity.  
+- `IEntity`
+  - A simple marker interface that provides an implementation with a way to define a unique `IEntityKey` on an Entity.
+    - `IEntityKey` the unique key associated with the entity.
+
 <br/>
 # TODOs:
 1. Provide better source generation for our generic implementations
