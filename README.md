@@ -1,9 +1,8 @@
 # The Omen Den Shared Library [![Build](https://github.com/theomenden/TheOmenDen.Shared/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/theomenden/TheOmenDen.Shared/actions/workflows/sonarcloud.yml)[![GitHub issues](https://img.shields.io/github/issues/theomenden/TheOmenDen.Shared?style=plastic)](https://github.com/theomenden/TheOmenDen.Shared/issues)[![GitHub license](https://img.shields.io/github/license/theomenden/TheOmenDen.Shared?style=plastic)](https://github.com/theomenden/TheOmenDen.Shared/blob/master/LICENSE.txt)[![GitHub stars](https://img.shields.io/github/stars/theomenden/TheOmenDen.Shared?style=plastic)](https://github.com/theomenden/TheOmenDen.Shared/stargazers)
 
-- ##  This is just a grouping of common classes that are used within every application that The Omen Den aims to provide as a company, and is free to modify, redistribute, and use elsewhere
- - ## Especially since this library is sure to not be unique to us.
- - ### Attributions for credits on each release are defined below
-<br /><br />
+- ###  This is just a grouping of common classes that are used within every application that The Omen Den aims to provide as a company, and is free to modify, redistribute, and use elsewhere
+ - Especially since this library is sure to not be unique to us.
+ -  Attributions for credits on each release are defined below
 # Goals that we aim for:
 1. Relevant extensions across The Omen Den's software applications
 2. Exception calling, and custom exceptions
@@ -124,11 +123,19 @@
   - A simple marker interface that provides an implementation with a way to define a unique `IEntityKey` on an Entity.
     - `IEntityKey` the unique key associated with the entity.
 
-<br/>
+## Specifications
+ - We've implemented a basic specification pattern. The idea here is that it should be robust enough to use in a common case, but not too complicated that it will require a steep learning curve
+ - We've added the following logical operations to the specification pattern
+   - `AND` which combines two specifications and returns the combined result using the AND logical truth table 
+   - `OR` which combines two specifications and returns the combined result using the OR logical truth table
+   - `NOR` which combines two specifications and returns the combined result using the NOR logical truth table (Bubble And)
+   - `NAND` which combines two specifications and returns the combined result using the NAND logical truth table (Bubble Or)
+   - `NOT` which inverts the logical truth table for the provided specification.
+ - These do use System.Linq.Expressions, and are implemented over record types, with the idea that a specification should be weighed in it's usage by the intent of the domain it belongs to. This also allows us to have a sort of better knowledge of thread safety and mitigate certain performance issues. We're hoping to continue to improve upon these metrics, and can provide unit test coverages, as well as further performance metrics.
+ - An example of using this pattern can be found in the Unit Tests Repository, which is located at [TheOmenDen.Shared.Tests](https://github.com/theomenden/TheOmenDen.Shared.Tests).
 # TODOs:
 1. Provide better source generation for our generic implementations
 2. Provide clearer, and more accessible documentation
-3. Add `.NET 7` and `.NET Standard` build targets.
-4. General clean-up, and optimizations
+3. General clean-up, and optimizations
 
 
