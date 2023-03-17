@@ -15,7 +15,7 @@
 		<Description>A collection of core classes, services, interfaces, and other software development concepts that are used throughout The Omen Den's applications</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Company>The Omen Den L.L.C.</Company>
-		<Copyright>2022</Copyright>
+		<Copyright>2023</Copyright>
 		<PackageProjectUrl>https://github.com/theomenden/TheOmenDen.Shared</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/theomenden/TheOmenDen.Shared</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
