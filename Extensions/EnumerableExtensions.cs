@@ -95,7 +95,7 @@ public static class EnumerableExtensions
                 ICollection<T> collection when totalElementsToReturn >= collection.Count => collection,
                 T[] array => GetRandomElementsFromArray(array, totalElementsToReturn),
                 IList<T> list => GetRandomElementsFromList(list, totalElementsToReturn),
-                _ => FisherYatesDurstenfeldShuffle(source.ToArray())
+                _ => FisherYatesDurstenfeldShuffle(source.ToArray())[..totalElementsToReturn]
             };
     }
 
