@@ -7,13 +7,6 @@ namespace TheOmenDen.Shared.Responses;
 /// </summary>
 public sealed class OperationOutcome
 {
-    public OperationOutcome()
-    {
-        ClientErrorPayload = new ();
-        CorrelationId = String.Empty;
-        Errors = Enumerable.Empty<String>();
-    }
-
     /// <summary>
     /// <inheritdoc cref="Enumerations.OperationResult"/>
     /// </summary>
@@ -22,30 +15,31 @@ public sealed class OperationOutcome
     /// <summary>
     /// The correlation id for us to search for this outcome
     /// </summary>
-    public String CorrelationId { get; set; }
+    public String CorrelationId { get; set; } = String.Empty;
 
     /// <summary>
     /// The errors that lead to the outcome represented as a collection of strings
     /// </summary>
-    public IEnumerable<String> Errors { get; set; }
+    public IEnumerable<String> Errors { get; set; } = Enumerable.Empty<String>();
 
     /// <summary>
     /// <inheritdoc cref="ClientErrorPayload"/>
     /// </summary>
-    public ClientErrorPayload ClientErrorPayload { get; set; }
+    public ClientErrorPayload ClientErrorPayload { get; set; } = new();
 
     /// <summary>
     /// Successful outcome indicator
     /// </summary>
     public static OperationOutcome SuccessfulOutcome => new()
     {
-        Errors= Enumerable.Empty<String>(),
+        Errors = Enumerable.Empty<String>(),
         CorrelationId = String.Empty,
-        ClientErrorPayload = new (){
-        IsError = false,
-        IsValidationFailure = false,
-        Message = String.Empty,
-        Detail = String.Empty
+        ClientErrorPayload = new()
+        {
+            IsError = false,
+            IsValidationFailure = false,
+            Message = String.Empty,
+            Detail = String.Empty
         },
         OperationResult = OperationResult.Success
     };
